@@ -87,7 +87,9 @@
         
         .score-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); text-align: center; z-index: 1000; display: none; width: 90%; max-width: 400px; }
         .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; display: none; }
-        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 8px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 0 auto 20px; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 8px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .score-val { font-size: 2.2rem; font-weight: 800; color: var(--primary); line-height: 1; }
+        .score-label { font-size: 0.9rem; color: #64748b; font-weight: 600; margin-top: 5px; }
         #saveStatus { margin-top: 10px; font-size: 0.9rem; }
         
         @media (max-width: 600px) {
@@ -118,7 +120,7 @@
         
         <!-- SECTION 1: TRẮC NGHIỆM -->
         <div class="section-header">
-            <h2>PHẦN I: TRẮC NGHIỆM (12 Câu)</h2>
+            <h2>PHẦN I: TRẮC NGHIỆM (3.0 Điểm)</h2>
             <p class="section-desc">Chọn 01 phương án đúng nhất cho mỗi câu hỏi.</p>
         </div>
 
@@ -299,7 +301,7 @@
 
         <!-- SECTION 2: ĐÚNG SAI -->
         <div class="section-header">
-            <h2>PHẦN II: ĐÚNG / SAI (4 Câu)</h2>
+            <h2>PHẦN II: ĐÚNG / SAI (1.0 Điểm)</h2>
             <p class="section-desc">Chọn Đúng hoặc Sai cho mỗi phát biểu.</p>
         </div>
 
@@ -370,7 +372,7 @@
 
         <!-- SECTION 3: ĐIỀN KHUYẾT (KÉO THẢ) -->
         <div class="section-header">
-            <h2>PHẦN III: ĐIỀN KHUYẾT (5 Câu)</h2>
+            <h2>PHẦN III: ĐIỀN KHUYẾT (2.0 Điểm)</h2>
             <p class="section-desc">Bấm vào ô trống rồi chọn từ thích hợp để điền vào.</p>
         </div>
 
@@ -441,7 +443,7 @@
 
         <!-- SECTION 4: TRẢ LỜI NGẮN -->
         <div class="section-header">
-            <h2>PHẦN IV: TRẢ LỜI NGẮN (5 Câu)</h2>
+            <h2>PHẦN IV: TRẢ LỜI NGẮN (4.0 Điểm)</h2>
             <p class="section-desc">Nhập kết quả cuối cùng (chỉ nhập số).</p>
         </div>
 
@@ -486,7 +488,10 @@
 
 <div class="overlay" id="overlay"></div>
 <div class="score-modal" id="scoreModal">
-    <div class="score-circle" id="finalScore">0</div>
+    <div class="score-circle" id="finalScore">
+        <span class="score-val" id="scorePercent">0%</span>
+        <span class="score-label" id="scoreRaw">0/10</span>
+    </div>
     <h2>Hoàn thành bài thi!</h2>
     <p>Bạn đã hoàn thành bài kiểm tra Toán 6.</p>
     <button class="btn btn-save" onclick="sendToGoogleSheet()" id="btnSave" disabled>Gửi kết quả</button>
@@ -566,7 +571,7 @@
     }, 1000);
 
     // --- SUBMIT ---
-    let finalScoreValue = 0;
+    let finalScorePercent = "";
     
     function submitExam() {
         // Validate name
@@ -579,11 +584,10 @@
 
         clearInterval(timerInt);
         let score = 0;
-        let total = 0;
+        let maxScore = 10; // Tổng điểm chuẩn là 10
 
-        // Grade MCQ
+        // 1. Grade MCQ (12 câu -> 3.0 điểm -> 0.25đ/câu)
         for(let i=1; i<=12; i++) {
-            total += 0.25;
             const qID = `q${i}`;
             const sel = document.querySelector(`input[name="${qID}"]:checked`);
             const fb = document.querySelector(`#${qID} .result-feedback`);
@@ -598,7 +602,7 @@
             }
         }
 
-        // Grade TF
+        // 2. Grade TF (4 câu -> 1.0 điểm -> 0.25đ/câu)
         for(let i=1; i<=4; i++) {
             const qID = `tf${i}`;
             const rows = document.querySelectorAll(`#${qID} .tf-table tr`);
@@ -614,17 +618,18 @@
                     if(btnGrp) btnGrp.style.border = '2px solid #ef4444';
                 }
             });
+            // Mỗi câu lớn 0.25đ, chia đều cho 4 ý nhỏ -> 0.0625đ/ý
             score += correctCount * 0.0625;
-            total += 0.25;
+            
             const fb = document.querySelector(`#${qID} .result-feedback`);
             fb.style.display = 'block';
             fb.className = 'result-feedback ' + (correctCount==4 ? 'correct':'wrong');
             fb.innerHTML = `Bạn đúng ${correctCount}/4 ý.`;
         }
 
-        // Grade DD
+        // 3. Grade DD (5 câu -> 2.0 điểm -> 0.4đ/câu)
+        // Lưu ý: Đã điều chỉnh thang điểm lên 2.0 cho phần này để tổng là 10
         for(let i=1; i<=5; i++) {
-            total += 0.2;
             const qID = `dd${i}`;
             const slot = document.querySelector(`#${qID} .dd-slot`);
             const userVal = slot.dataset.currentVal;
@@ -632,7 +637,7 @@
             const fb = document.querySelector(`#${qID} .result-feedback`);
             fb.style.display = 'block';
             if(userVal === correctVal) {
-                score += 0.2;
+                score += 0.4;
                 fb.className = 'result-feedback correct';
                 fb.innerHTML = '✅ Chính xác!';
             } else {
@@ -641,15 +646,15 @@
             }
         }
 
-        // Grade SA
+        // 4. Grade SA (5 câu -> 4.0 điểm -> 0.8đ/câu)
+        // Lưu ý: Đã điều chỉnh thang điểm lên 4.0 cho phần này để tổng là 10
         for(let i=1; i<=5; i++) {
-            total += 0.4;
             const qID = `sa${i}`;
             const inp = document.getElementById(`inp_${qID}`);
             const fb = document.querySelector(`#${qID} .result-feedback`);
             fb.style.display = 'block';
             if(inp.value.trim() == ANSWERS.sa[qID]) {
-                score += 0.4;
+                score += 0.8;
                 fb.className = 'result-feedback correct';
                 fb.innerHTML = '✅ Chính xác!';
             } else {
@@ -658,8 +663,14 @@
             }
         }
 
-        finalScoreValue = score.toFixed(2);
-        document.getElementById('finalScore').textContent = finalScoreValue;
+        // Calculate Percentage
+        let percent = (score / maxScore) * 100;
+        finalScorePercent = Math.round(percent) + "%";
+        
+        // Update Modal
+        document.getElementById('scorePercent').textContent = finalScorePercent;
+        document.getElementById('scoreRaw').textContent = `Điểm số: ${score.toFixed(2)}/10`;
+        
         document.getElementById('scoreModal').style.display = 'block';
         document.getElementById('overlay').style.display = 'block';
         document.querySelector('.btn-submit').style.display = 'none';
@@ -694,7 +705,7 @@
         const data = {
             timestamp: new Date().toLocaleString('vi-VN'),
             name: name,
-            score: finalScoreValue
+            score: finalScorePercent // Gửi phần trăm về Sheet
         };
 
         // Sử dụng mode 'no-cors' để tránh lỗi CORS khi gọi từ local/file
