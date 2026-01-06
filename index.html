@@ -3,741 +3,633 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thi Thử Toán 6 - Mã Đề 05 (Nâng Cao)</title>
+    <title>Kiểm tra Toán 6: Phân Số</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        :root { --primary: #2563eb; --success: #22c55e; --danger: #ef4444; --bg: #f1f5f9; --text: #1e293b; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        
-        /* Header */
-        .header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; gap: 15px; }
-        .header h1 { margin: 0; font-size: 1.8rem; color: var(--primary); }
-        .timer { font-size: 1.5rem; font-weight: 800; color: white; background: var(--primary); padding: 10px 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3); }
-        
-        /* Student Info Input */
-        .student-info { width: 100%; margin-top: 15px; }
-        .name-input { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem; transition: 0.3s; }
-        .name-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
-
-        /* Section Styles */
-        .section-header { background: #eff6ff; border-left: 5px solid var(--primary); padding: 15px 20px; margin: 40px 0 20px 0; border-radius: 0 8px 8px 0; }
-        .section-header h2 { margin: 0; font-size: 1.2rem; color: #1e40af; }
-        .section-desc { margin: 5px 0 0 0; font-size: 0.9rem; color: #64748b; }
-
-        /* Question Card */
-        .question-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; transition: transform 0.2s; }
-        .question-card:hover { border-color: #cbd5e1; }
-        .q-number { font-weight: 800; color: var(--primary); margin-right: 8px; }
-        .q-content { font-weight: 600; font-size: 1.05rem; margin-bottom: 15px; display: block; }
-        
-        /* MCQ Options */
-        .mcq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
-        .mcq-option { display: flex; align-items: center; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
-        .mcq-option:hover { background: #f8fafc; border-color: #94a3b8; }
-        .mcq-option input { margin-right: 12px; transform: scale(1.2); }
-        .mcq-option.selected { border-color: var(--primary); background: #eff6ff; }
-
-        /* True/False Table */
-        .tf-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .tf-table th, .tf-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        .tf-table th { background: #f8fafc; color: #64748b; font-size: 0.9rem; }
-        .tf-btn-group { display: flex; gap: 5px; }
-        .tf-btn { padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
-        .tf-btn.active-true { background: var(--primary); color: white; border-color: var(--primary); }
-        .tf-btn.active-false { background: var(--primary); color: white; border-color: var(--primary); }
-        
-        /* Drag & Drop (Click to Fill) */
-        .dd-area { background: #f8fafc; padding: 20px; border-radius: 8px; border: 2px dashed #cbd5e1; }
-        .dd-sentence { font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; }
-        .dd-slot { display: inline-block; min-width: 100px; height: 30px; border-bottom: 2px solid var(--primary); color: var(--primary); font-weight: bold; text-align: center; cursor: pointer; padding: 0 10px; background: white; vertical-align: bottom; }
-        .dd-slot.filled { background: #eff6ff; border: 2px solid var(--primary); border-radius: 6px; border-bottom: 2px solid var(--primary); }
-        .dd-options { display: flex; flex-wrap: wrap; gap: 10px; }
-        .dd-chip { padding: 8px 16px; background: white; border: 1px solid #cbd5e1; border-radius: 20px; cursor: pointer; font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
-        .dd-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .dd-chip.used { opacity: 0.5; background: #e2e8f0; cursor: default; transform: none; box-shadow: none; }
-        .dd-chip.selected { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
-
-        /* Short Answer */
-        .sa-input { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; font-family: inherit; transition: border-color 0.2s; }
-        .sa-input:focus { border-color: var(--primary); outline: none; }
-
-        /* Result Styles */
-        .result-feedback { margin-top: 15px; padding: 12px; border-radius: 8px; font-size: 0.95rem; display: none; }
-        .result-feedback.correct { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-        .result-feedback.wrong { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-        .explanation { font-size: 0.85rem; margin-top: 5px; font-style: italic; opacity: 0.9; }
-
-        /* Charts */
-        .chart-visual { height: 160px; display: flex; align-items: flex-end; gap: 20px; padding: 20px; background: #fffbeb; border-radius: 8px; border: 1px dashed #f59e0b; margin-bottom: 15px; }
-        .bar-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 5px; }
-        .bar-pair { display: flex; align-items: flex-end; gap: 4px; height: 100%; }
-        .bar { width: 24px; background: var(--primary); border-radius: 4px 4px 0 0; position: relative; transition: height 1s; }
-        .bar.orange { background: #f97316; }
-        .bar span { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight: bold; color: #333; }
-
-        /* Footer */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; border-top: 1px solid #e2e8f0; display: flex; justify-content: center; gap: 15px; box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1); z-index: 100; }
-        .btn { padding: 12px 40px; border: none; border-radius: 8px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
-        .btn-submit { background: var(--primary); color: white; }
-        .btn-submit:hover { background: #1d4ed8; transform: translateY(-2px); }
-        .btn-reset { background: #64748b; color: white; display: none; }
-        .btn-save { background: #10b981; color: white; margin-top: 15px; width: 100%; padding: 10px; font-size: 0.9rem; }
-        .btn-save:hover { background: #059669; }
-        .btn-save:disabled { background: #9ca3af; cursor: not-allowed; }
-        
-        .score-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); text-align: center; z-index: 1000; display: none; width: 90%; max-width: 400px; }
-        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; display: none; }
-        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 8px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; }
-        .score-val { font-size: 2.2rem; font-weight: 800; color: var(--primary); line-height: 1; }
-        .score-label { font-size: 0.9rem; color: #64748b; font-weight: 600; margin-top: 5px; }
-        #saveStatus { margin-top: 10px; font-size: 0.9rem; }
-        
-        @media (max-width: 600px) {
-            .header { flex-direction: column; text-align: center; }
-            .mcq-grid { grid-template-columns: 1fr; }
-            .bar-chart { gap: 10px; }
-            .footer { padding: 10px; }
-            .btn { width: 100%; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .hand-font {
+            font-family: 'Patrick Hand', cursive;
+        }
+        /* Custom Fraction CSS */
+        .fraction {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 0.2rem;
+            text-align: center;
+        }
+        .fraction > span {
+            display: block;
+            padding: 0.1rem;
+        }
+        .fraction span.numerator {
+            border-bottom: 2px solid currentColor;
+        }
+        .fraction span.denominator {
+            display: block;
+        }
+        .math-symbol {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+        /* Animation for AI Comment */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
 </head>
 <body>
+    <div id="root"></div>
 
-<div class="container">
-    <div class="header">
-        <div>
-            <h1>TOÁN 6 - MÃ ĐỀ 05</h1>
-            <p style="color: #64748b; margin-top: 5px;">Kiểm tra Cuối Kỳ 1 | Chân Trời Sáng Tạo | Thời gian: 90 phút</p>
-        </div>
-        <div class="timer" id="timer">90:00</div>
-        
-        <div class="student-info">
-            <input type="text" id="studentName" class="name-input" placeholder="Nhập Họ và Tên của bạn để bắt đầu làm bài...">
-        </div>
-    </div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-    <form id="quizForm">
-        
-        <!-- SECTION 1: TRẮC NGHIỆM -->
-        <div class="section-header">
-            <h2>PHẦN I: TRẮC NGHIỆM (3.0 Điểm)</h2>
-            <p class="section-desc">Chọn 01 phương án đúng nhất cho mỗi câu hỏi.</p>
-        </div>
+        // --- CONFIGURATION ---
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBPRlkjpMLDctdm2Uk7aYex_P6Cx0uhIdUmwOcYEm9C7JDe5OH92FiWEn6Nz1HNenY-A/exec";
 
-        <!-- Q1 -->
-        <div class="question-card" id="q1">
-            <span class="q-content"><span class="q-number">Câu 1:</span> Cho M = {a; 5; b; c}. Khẳng định nào sau đây là SAI?</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q1" value="A"> A. b ∈ M</label>
-                <label class="mcq-option"><input type="radio" name="q1" value="B"> B. c ∉ M</label>
-                <label class="mcq-option"><input type="radio" name="q1" value="C"> C. a ∈ M</label>
-                <label class="mcq-option"><input type="radio" name="q1" value="D"> D. d ∉ M</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q2 -->
-        <div class="question-card" id="q2">
-            <span class="q-content"><span class="q-number">Câu 2:</span> Số tự nhiên x thỏa mãn x - 5 = 0 là?</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q2" value="A"> A. 1</label>
-                <label class="mcq-option"><input type="radio" name="q2" value="B"> B. 0</label>
-                <label class="mcq-option"><input type="radio" name="q2" value="C"> C. 5</label>
-                <label class="mcq-option"><input type="radio" name="q2" value="D"> D. 10</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q3 -->
-        <div class="question-card" id="q3">
-            <span class="q-content"><span class="q-number">Câu 3:</span> Tính chu vi hình chữ nhật có chiều rộng 48cm và chiều dài 79cm.</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q3" value="A"> A. 381cm</label>
-                <label class="mcq-option"><input type="radio" name="q3" value="B"> B. 127cm</label>
-                <label class="mcq-option"><input type="radio" name="q3" value="C"> C. 254cm</label>
-                <label class="mcq-option"><input type="radio" name="q3" value="D"> D. 128cm</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q4 -->
-        <div class="question-card" id="q4">
-            <span class="q-content"><span class="q-number">Câu 4:</span> Nếu giảm chiều dài đi 4cm, tăng chiều rộng 7cm của một HCN thì được hình vuông diện tích 64cm². Diện tích HCN ban đầu là:</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q4" value="A"> A. 14 cm²</label>
-                <label class="mcq-option"><input type="radio" name="q4" value="B"> B. 9 cm²</label>
-                <label class="mcq-option"><input type="radio" name="q4" value="C"> C. 10 cm²</label>
-                <label class="mcq-option"><input type="radio" name="q4" value="D"> D. 12 cm²</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q5 -->
-        <div class="question-card" id="q5">
-            <span class="q-content"><span class="q-number">Câu 5:</span> Dựa vào biểu đồ cột kép dưới đây, số cá của Tổ 3 và Tổ 4 nuôi lần lượt là?</span>
-            <div class="chart-visual">
-                <div class="bar-col">
-                    <div class="bar-pair">
-                        <div class="bar" style="height: 60px;"><span>8</span></div>
-                        <div class="bar orange" style="height: 40px;"><span>4</span></div>
-                    </div>
-                    <small>Chó</small>
-                </div>
-                <div class="bar-col">
-                    <div class="bar-pair">
-                        <div class="bar" style="height: 50px;"><span>5</span></div>
-                        <div class="bar orange" style="height: 50px;"><span>5</span></div>
-                    </div>
-                    <small>Mèo</small>
-                </div>
-                 <div class="bar-col">
-                    <div class="bar-pair">
-                        <div class="bar" style="height: 90px;"><span>10</span></div>
-                        <div class="bar orange" style="height: 20px;"><span>2</span></div>
-                    </div>
-                    <small>Chim</small>
-                </div>
-                <div class="bar-col">
-                    <div class="bar-pair">
-                        <div class="bar" style="height: 110px;"><span>12</span></div>
-                        <div class="bar orange" style="height: 130px;"><span>15</span></div>
-                    </div>
-                    <small style="font-weight:bold; color:var(--primary)">Cá</small>
-                </div>
-            </div>
-            <div style="font-size: 0.8rem; margin-bottom: 10px; text-align: center;"><span style="color:var(--primary)">■ Tổ 3</span> &nbsp; <span style="color:#f97316">■ Tổ 4</span></div>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q5" value="A"> A. Tổ 3: 10, Tổ 4: 14</label>
-                <label class="mcq-option"><input type="radio" name="q5" value="B"> B. Tổ 3: 12, Tổ 4: 16</label>
-                <label class="mcq-option"><input type="radio" name="q5" value="C"> C. Tổ 3: 12, Tổ 4: 15</label>
-                <label class="mcq-option"><input type="radio" name="q5" value="D"> D. Tổ 3: 15, Tổ 4: 12</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q6 -->
-        <div class="question-card" id="q6">
-            <span class="q-content"><span class="q-number">Câu 6:</span> Bảng thống kê hạnh kiểm: Tốt (25), Khá (3), TB (2). Số học sinh có hạnh kiểm từ Khá trở lên là?</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q6" value="A"> A. 5</label>
-                <label class="mcq-option"><input type="radio" name="q6" value="B"> B. 28</label>
-                <label class="mcq-option"><input type="radio" name="q6" value="C"> C. 27</label>
-                <label class="mcq-option"><input type="radio" name="q6" value="D"> D. 30</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q7 -->
-        <div class="question-card" id="q7">
-            <span class="q-content"><span class="q-number">Câu 7:</span> Tất cả các ước của 15 là:</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q7" value="A"> A. {1; 3; 5; 15}</label>
-                <label class="mcq-option"><input type="radio" name="q7" value="B"> B. {0; 15; 30; ...}</label>
-                <label class="mcq-option"><input type="radio" name="q7" value="C"> C. {0; 1; 15}</label>
-                <label class="mcq-option"><input type="radio" name="q7" value="D"> D. {3; 5}</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q8 -->
-        <div class="question-card" id="q8">
-            <span class="q-content"><span class="q-number">Câu 8:</span> Có 10 quả cam chia cho 5 người. Mỗi người được mấy quả?</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q8" value="A"> A. 2</label>
-                <label class="mcq-option"><input type="radio" name="q8" value="B"> B. 5</label>
-                <label class="mcq-option"><input type="radio" name="q8" value="C"> C. 4</label>
-                <label class="mcq-option"><input type="radio" name="q8" value="D"> D. 3</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q9 -->
-        <div class="question-card" id="q9">
-            <span class="q-content"><span class="q-number">Câu 9:</span> Giá trị của biểu thức a.b³ với a = -3, b = -2 là:</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q9" value="A"> A. 18</label>
-                <label class="mcq-option"><input type="radio" name="q9" value="B"> B. -18</label>
-                <label class="mcq-option"><input type="radio" name="q9" value="C"> C. 24</label>
-                <label class="mcq-option"><input type="radio" name="q9" value="D"> D. -24</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q10 -->
-        <div class="question-card" id="q10">
-            <span class="q-content"><span class="q-number">Câu 10:</span> Tập hợp các ước nguyên của -12 là:</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q10" value="A"> A. {1;2;3;4;6;12}</label>
-                <label class="mcq-option"><input type="radio" name="q10" value="B"> B. {±2;±3;±4;±6;±12}</label>
-                <label class="mcq-option"><input type="radio" name="q10" value="C"> C. {±1;±3;±4;±6;±12}</label>
-                <label class="mcq-option"><input type="radio" name="q10" value="D"> D. {±1;±2;±3;±4;±6;±12}</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q11 -->
-        <div class="question-card" id="q11">
-            <span class="q-content"><span class="q-number">Câu 11:</span> Có bao nhiêu số tự nhiên x thỏa mãn 3105 ≤ x ≤ 3111?</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q11" value="A"> A. 7</label>
-                <label class="mcq-option"><input type="radio" name="q11" value="B"> B. 5</label>
-                <label class="mcq-option"><input type="radio" name="q11" value="C"> C. 6</label>
-                <label class="mcq-option"><input type="radio" name="q11" value="D"> D. 8</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- Q12 -->
-        <div class="question-card" id="q12">
-            <span class="q-content"><span class="q-number">Câu 12:</span> Lớp 6A (45hs), 6B (42hs), 6C (48hs) xếp hàng dọc sao cho số hàng bằng nhau. Số hàng dọc nhiều nhất là?</span>
-            <div class="mcq-grid">
-                <label class="mcq-option"><input type="radio" name="q12" value="A"> A. 3</label>
-                <label class="mcq-option"><input type="radio" name="q12" value="B"> B. 4</label>
-                <label class="mcq-option"><input type="radio" name="q12" value="C"> C. 2</label>
-                <label class="mcq-option"><input type="radio" name="q12" value="D"> D. 1</label>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- SECTION 2: ĐÚNG SAI -->
-        <div class="section-header">
-            <h2>PHẦN II: ĐÚNG / SAI (1.0 Điểm)</h2>
-            <p class="section-desc">Chọn Đúng hoặc Sai cho mỗi phát biểu.</p>
-        </div>
-
-        <!-- TF1 -->
-        <div class="question-card" id="tf1">
-            <span class="q-content"><span class="q-number">Câu 1:</span> Hình chữ nhật dài 8cm, rộng 5cm.</span>
-            <table class="tf-table">
-                <tr><td>a) Chu vi tính bằng P = (d + r) × 2</td>
-                    <td width="120"><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>b) Diện tích bằng d × r</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>c) Chu vi là 13cm</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>d) Nếu tăng dài 2cm thì diện tích mới là 50cm²</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-            </table>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- TF2 -->
-        <div class="question-card" id="tf2">
-            <span class="q-content"><span class="q-number">Câu 2:</span> Mua 2 bó rau (10k/bó), 1kg cá (60k), 4 quả trứng (2.8k/quả). Mẹ đưa 200k.</span>
-            <table class="tf-table">
-                <tr><td>a) Tiền mua rau là 20.000đ</td>
-                    <td width="120"><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>b) Tiền cá là 60.000đ</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>c) Tiền trứng là 8.000đ</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>d) Tiền thừa là 108.800đ</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-            </table>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- TF3 -->
-        <div class="question-card" id="tf3">
-            <span class="q-content"><span class="q-number">Câu 3:</span> Về Hình tam giác đều ABC cạnh 6cm.</span>
-            <table class="tf-table">
-                <tr><td>a) Ba cạnh bằng nhau</td>
-                    <td width="120"><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>b) Ba góc bằng nhau và bằng 60 độ</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>c) Chu vi là 12cm</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>d) Có 3 trục đối xứng</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-            </table>
-            <div class="result-feedback"></div>
-        </div>
-
-         <!-- TF4 -->
-        <div class="question-card" id="tf4">
-            <span class="q-content"><span class="q-number">Câu 4:</span> Về Bội Chung Nhỏ Nhất (BCNN) của a và b là 84.</span>
-            <table class="tf-table">
-                <tr><td>a) a và b đều chia hết cho 84</td>
-                    <td width="120"><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>b) 84 chia hết cho cả a và b</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>c) Nếu a = 1 thì b = 84</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-                <tr><td>d) Mọi bội chung của a, b đều là bội của 84</td>
-                    <td><div class="tf-btn-group"><button type="button" class="tf-btn" data-val="T">ĐÚNG</button><button type="button" class="tf-btn" data-val="F">SAI</button></div></td></tr>
-            </table>
-            <div class="result-feedback"></div>
-        </div>
-
-
-        <!-- SECTION 3: ĐIỀN KHUYẾT (KÉO THẢ) -->
-        <div class="section-header">
-            <h2>PHẦN III: ĐIỀN KHUYẾT (2.0 Điểm)</h2>
-            <p class="section-desc">Bấm vào ô trống rồi chọn từ thích hợp để điền vào.</p>
-        </div>
-
-        <div class="question-card" id="dd1">
-            <span class="q-content"><span class="q-number">Câu 1:</span> Khái niệm hình học</span>
-            <div class="dd-area">
-                <div class="dd-sentence">Hình thoi là tứ giác có bốn cạnh bằng nhau và hai đường chéo <span class="dd-slot" data-key="vuonggoc"></span> với nhau.</div>
-                <div class="dd-options">
-                    <span class="dd-chip" data-val="songsong">song song</span>
-                    <span class="dd-chip" data-val="vuonggoc">vuông góc</span>
-                    <span class="dd-chip" data-val="bangnhau">bằng nhau</span>
-                </div>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <div class="question-card" id="dd2">
-            <span class="q-content"><span class="q-number">Câu 2:</span> Số học</span>
-            <div class="dd-area">
-                <div class="dd-sentence">Số nguyên tố là số tự nhiên lớn hơn 1, chỉ có <span class="dd-slot" data-key="hai"></span> ước là 1 và chính nó.</div>
-                <div class="dd-options">
-                    <span class="dd-chip" data-val="mot">một</span>
-                    <span class="dd-chip" data-val="hai">hai</span>
-                    <span class="dd-chip" data-val="ba">ba</span>
-                </div>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <div class="question-card" id="dd3">
-            <span class="q-content"><span class="q-number">Câu 3:</span> Phép tính số nguyên</span>
-            <div class="dd-area">
-                <div class="dd-sentence">Muốn nhân hai số nguyên khác dấu, ta nhân hai giá trị tuyệt đối của chúng rồi đặt dấu <span class="dd-slot" data-key="tru"></span> trước kết quả nhận được.</div>
-                <div class="dd-options">
-                    <span class="dd-chip" data-val="cong">cộng (+)</span>
-                    <span class="dd-chip" data-val="tru">trừ (-)</span>
-                    <span class="dd-chip" data-val="nhan">nhân (x)</span>
-                </div>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <div class="question-card" id="dd4">
-            <span class="q-content"><span class="q-number">Câu 4:</span> Hình lục giác đều</span>
-            <div class="dd-area">
-                <div class="dd-sentence">Hình lục giác đều có 6 cạnh bằng nhau và 6 góc <span class="dd-slot" data-key="bangnhau"></span>.</div>
-                <div class="dd-options">
-                    <span class="dd-chip" data-val="khacnhau">khác nhau</span>
-                    <span class="dd-chip" data-val="bangnhau">bằng nhau</span>
-                    <span class="dd-chip" data-val="vuong">vuông</span>
-                </div>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <div class="question-card" id="dd5">
-            <span class="q-content"><span class="q-number">Câu 5:</span> Ước chung</span>
-            <div class="dd-area">
-                <div class="dd-sentence">Ước chung lớn nhất của hai hay nhiều số là số lớn nhất trong tập hợp các <span class="dd-slot" data-key="uocchung"></span> của các số đó.</div>
-                <div class="dd-options">
-                    <span class="dd-chip" data-val="boichung">bội chung</span>
-                    <span class="dd-chip" data-val="uocchung">ước chung</span>
-                    <span class="dd-chip" data-val="uocrieng">ước riêng</span>
-                </div>
-            </div>
-            <div class="result-feedback"></div>
-        </div>
-
-        <!-- SECTION 4: TRẢ LỜI NGẮN -->
-        <div class="section-header">
-            <h2>PHẦN IV: TRẢ LỜI NGẮN (4.0 Điểm)</h2>
-            <p class="section-desc">Nhập kết quả cuối cùng (chỉ nhập số).</p>
-        </div>
-
-        <div class="question-card" id="sa1">
-            <span class="q-content"><span class="q-number">Câu 1:</span> Hình bình hành ABCD tâm O có OA=5cm, OD=7cm. Tính tổng độ dài AC + BD (cm)?</span>
-            <input type="number" class="sa-input" id="inp_sa1" placeholder="Nhập đáp án...">
-            <div class="result-feedback"></div>
-        </div>
-
-        <div class="question-card" id="sa2">
-            <span class="q-content"><span class="q-number">Câu 2:</span> Chó đuổi thỏ cách 150dm. Bước chó 9dm, bước thỏ 7dm. Hỏi chó cần bao nhiêu bước để đuổi kịp?</span>
-            <input type="number" class="sa-input" id="inp_sa2" placeholder="Nhập đáp án...">
-            <div class="result-feedback"></div>
-        </div>
-
-        <div class="question-card" id="sa3">
-            <span class="q-content"><span class="q-number">Câu 3:</span> Có 4 cửa hàng bán nước ngọt. Cửa hàng A có 2 biểu tượng, B có 3, C có 1, D có 4. Mỗi biểu tượng ứng với 12 lon. Cửa hàng A cần bán thêm bao nhiêu lon để bằng cửa hàng D?</span>
-            <input type="number" class="sa-input" id="inp_sa3" placeholder="Nhập đáp án...">
-            <div class="result-feedback"></div>
-        </div>
-
-        <div class="question-card" id="sa4">
-            <span class="q-content"><span class="q-number">Câu 4:</span> Dùng ba chữ số 4, 5, 9 ghép thành số có ba chữ số nhỏ nhất và chia hết cho 2. Số đó là?</span>
-            <input type="number" class="sa-input" id="inp_sa4" placeholder="Nhập đáp án...">
-            <div class="result-feedback"></div>
-        </div>
-        
-        <div class="question-card" id="sa5">
-            <span class="q-content"><span class="q-number">Câu 5:</span> Tính tổng B = 1 - 3 + 5 - 7 + ... + 25 - 26. Kết quả là bao nhiêu?</span>
-            <input type="number" class="sa-input" id="inp_sa5" placeholder="Nhập đáp án...">
-            <div class="result-feedback"></div>
-        </div>
-
-        <div style="height: 60px;"></div>
-    </form>
-
-    <div class="footer">
-        <button class="btn btn-submit" onclick="submitExam()">NỘP BÀI</button>
-        <button class="btn btn-reset" onclick="location.reload()">LÀM LẠI</button>
-    </div>
-</div>
-
-<div class="overlay" id="overlay"></div>
-<div class="score-modal" id="scoreModal">
-    <div class="score-circle" id="finalScore">
-        <span class="score-val" id="scorePercent">0%</span>
-        <span class="score-label" id="scoreRaw">0/10</span>
-    </div>
-    <h2>Hoàn thành bài thi!</h2>
-    <p>Bạn đã hoàn thành bài kiểm tra Toán 6.</p>
-    <button class="btn btn-save" onclick="sendToGoogleSheet()" id="btnSave" disabled>Gửi kết quả</button>
-    <div id="saveStatus"></div>
-    <button class="btn btn-submit" style="width:100%; margin-top:20px; background:#64748b" onclick="closeModal()">Xem chi tiết</button>
-</div>
-
-<script>
-    // --- APP SCRIPT CONFIG ---
-    // Thay đổi URL này bằng URL Web App của bạn
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHSHaZOuPCnKDJkDzBv1UrwVb_9LDOYh9VfUe0WirXpSdUAuvvbDCJlPip0as8mET56A/exec';
-
-    // --- DATA & LOGIC ---
-    const ANSWERS = {
-        mcq: { q1:'B', q2:'C', q3:'C', q4:'D', q5:'C', q6:'B', q7:'A', q8:'A', q9:'C', q10:'D', q11:'A', q12:'A' },
-        tf: { 
-            tf1: ['T','T','F','T'], 
-            tf2: ['T','T','F','T'],
-            tf3: ['T','T','F','T'],
-            tf4: ['F','T','T','T']
-        },
-        dd: { dd1:'vuonggoc', dd2:'hai', dd3:'tru', dd4:'bangnhau', dd5:'uocchung' },
-        sa: { sa1:'24', sa2:'75', sa3:'24', sa4:'594', sa5:'-13' }
-    };
-
-    // --- INTERACTION: MCQ ---
-    document.querySelectorAll('.mcq-option input').forEach(inp => {
-        inp.addEventListener('change', (e) => {
-            const parent = e.target.closest('.mcq-grid');
-            parent.querySelectorAll('.mcq-option').forEach(opt => opt.classList.remove('selected'));
-            e.target.closest('.mcq-option').classList.add('selected');
-        });
-    });
-
-    // --- INTERACTION: TF ---
-    document.querySelectorAll('.tf-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const grp = e.target.closest('.tf-btn-group');
-            grp.querySelectorAll('.tf-btn').forEach(b => {
-                b.classList.remove('active-true', 'active-false');
-            });
-            if(e.target.dataset.val === 'T') e.target.classList.add('active-true');
-            else e.target.classList.add('active-false');
-            grp.dataset.selected = e.target.dataset.val;
-        });
-    });
-
-    // --- INTERACTION: DRAG DROP ---
-    let activeSlot = null;
-    document.querySelectorAll('.dd-slot').forEach(slot => {
-        slot.addEventListener('click', (e) => {
-            document.querySelectorAll('.dd-slot').forEach(s => s.style.borderBottomColor = 'var(--primary)');
-            activeSlot = e.target;
-            e.target.style.borderBottomColor = '#f59e0b';
-        });
-    });
-    document.querySelectorAll('.dd-chip').forEach(chip => {
-        chip.addEventListener('click', (e) => {
-            if(!activeSlot) return;
-            activeSlot.textContent = e.target.textContent;
-            activeSlot.dataset.currentVal = e.target.dataset.val;
-            activeSlot.classList.add('filled');
-            const parent = e.target.closest('.dd-options');
-            parent.querySelectorAll('.dd-chip').forEach(c => c.classList.remove('selected'));
-            activeSlot = null;
-        });
-    });
-
-    // --- TIMER ---
-    let time = 90 * 60;
-    const timerEl = document.getElementById('timer');
-    const timerInt = setInterval(() => {
-        const m = Math.floor(time / 60);
-        const s = time % 60;
-        timerEl.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
-        if(time > 0) time--;
-    }, 1000);
-
-    // --- SUBMIT ---
-    let finalScorePercent = "";
-    
-    function submitExam() {
-        // Validate name
-        const nameInp = document.getElementById('studentName');
-        if (!nameInp.value.trim()) {
-            alert("Vui lòng nhập Họ và Tên trước khi nộp bài!");
-            nameInp.focus();
-            return;
-        }
-
-        clearInterval(timerInt);
-        let score = 0;
-        let maxScore = 10; // Tổng điểm chuẩn là 10
-
-        // 1. Grade MCQ (12 câu -> 3.0 điểm -> 0.25đ/câu)
-        for(let i=1; i<=12; i++) {
-            const qID = `q${i}`;
-            const sel = document.querySelector(`input[name="${qID}"]:checked`);
-            const fb = document.querySelector(`#${qID} .result-feedback`);
-            fb.style.display = 'block';
-            if(sel && sel.value === ANSWERS.mcq[qID]) {
-                score += 0.25;
-                fb.className = 'result-feedback correct';
-                fb.innerHTML = '✅ Chính xác!';
-            } else {
-                fb.className = 'result-feedback wrong';
-                fb.innerHTML = `❌ Sai. Đáp án đúng: ${ANSWERS.mcq[qID]}`;
+        // --- Data: Questions ---
+        const quizData = [
+            // Phần 1: Trắc nghiệm (4 câu) - 1 điểm mỗi câu (giả định)
+            {
+                id: 1,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: "Trong các cách viết sau đây, cách viết nào KHÔNG phải là phân số?",
+                options: [
+                    { id: "A", label: "A", html: <div className="fraction"><span className="numerator">3</span><span className="denominator">2</span></div> },
+                    { id: "B", label: "B", html: <div className="fraction"><span className="numerator">-8</span><span className="denominator">-9</span></div> },
+                    { id: "C", label: "C", html: <div className="fraction"><span className="numerator">2,5</span><span className="denominator">-9,5</span></div> },
+                    { id: "D", label: "D", html: <div className="fraction"><span className="numerator">0</span><span className="denominator">4</span></div> }
+                ],
+                correctAnswer: "C",
+                explanation: "Phân số yêu cầu tử số và mẫu số phải là số nguyên. 2,5 và -9,5 là số thập phân."
+            },
+            {
+                id: 2,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: <span>Phân số <div className="fraction"><span className="numerator">-9</span><span className="denominator">7</span></div> được đọc là gì?</span>,
+                options: [
+                    { id: "A", text: "Chín phần bảy" },
+                    { id: "B", text: "Âm bảy phần chín" },
+                    { id: "C", text: "Bảy phần chín" },
+                    { id: "D", text: "Âm chín phần bảy" }
+                ],
+                correctAnswer: "D",
+                explanation: "Đọc tử số trước (Âm chín), rồi đến 'phần', rồi đến mẫu số (bảy)."
+            },
+            {
+                id: 3,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: <span>Phân số nào dưới đây bằng với phân số <div className="fraction"><span className="numerator">-2</span><span className="denominator">5</span></div>?</span>,
+                options: [
+                    { id: "A", html: <div className="fraction"><span className="numerator">4</span><span className="denominator">10</span></div> },
+                    { id: "B", html: <div className="fraction"><span className="numerator">-6</span><span className="denominator">15</span></div> },
+                    { id: "C", html: <div className="fraction"><span className="numerator">6</span><span className="denominator">15</span></div> },
+                    { id: "D", html: <div className="fraction"><span className="numerator">-4</span><span className="denominator">100</span></div> }
+                ],
+                correctAnswer: "B",
+                explanation: <span>Rút gọn <div className="fraction"><span className="numerator">-6</span><span className="denominator">15</span></div> (chia cả tử và mẫu cho 3) ta được <div className="fraction"><span className="numerator">-2</span><span className="denominator">5</span></div>.</span>
+            },
+            {
+                id: 4,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: "Lớp 6A có 45 học sinh, trong đó có 20 học sinh giỏi. Số học sinh giỏi chiếm bao nhiêu phần học sinh cả lớp?",
+                options: [
+                    { id: "A", html: <div className="fraction"><span className="numerator">1</span><span className="denominator">9</span></div> },
+                    { id: "B", html: <div className="fraction"><span className="numerator">4</span><span className="denominator">9</span></div> },
+                    { id: "C", html: <div className="fraction"><span className="numerator">1</span><span className="denominator">3</span></div> },
+                    { id: "D", html: <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div> }
+                ],
+                correctAnswer: "B",
+                explanation: <span>Lập phân số <div className="fraction"><span className="numerator">20</span><span className="denominator">45</span></div>, rút gọn cho 5 được <div className="fraction"><span className="numerator">4</span><span className="denominator">9</span></div>.</span>
+            },
+            // Phần 2: Đúng Sai (4 câu)
+            {
+                id: 5,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: "Phân số nhỏ hơn số 0 gọi là phân số âm.",
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "True",
+                explanation: "Theo định nghĩa SGK, phân số nhỏ hơn 0 là phân số âm."
+            },
+            {
+                id: 6,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: <span>Mọi số nguyên <span className="math-symbol">a</span> đều có thể viết dưới dạng phân số là <div className="fraction"><span className="numerator">a</span><span className="denominator">0</span></div>.</span>,
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "False",
+                explanation: <span>Mẫu số phải khác 0. Cách viết đúng là <div className="fraction"><span className="numerator">a</span><span className="denominator">1</span></div>.</span>
+            },
+            {
+                id: 7,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: <span>Phân số <div className="fraction"><span className="numerator">-2</span><span className="denominator">-5</span></div> là phân số dương.</span>,
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "True",
+                explanation: "Tử và mẫu cùng dấu (cùng âm) nên phân số có giá trị dương."
+            },
+            {
+                id: 8,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: "Số 0 KHÔNG thể viết được dưới dạng phân số.",
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "False",
+                explanation: <span>Sai. Số 0 có thể viết là <div className="fraction"><span className="numerator">0</span><span className="denominator">a</span></div> (với a khác 0).</span>
+            },
+            // Phần 3: Điền khuyết / Trả lời nhanh (2 câu)
+            {
+                id: 9,
+                type: "fill_in",
+                section: "III. Trả lời nhanh (2 câu)",
+                question: <span>Tìm số nguyên <span className="math-symbol">x</span>, biết: <div className="fraction"><span className="numerator">35</span><span className="denominator">15</span></div> = <div className="fraction"><span className="numerator">x</span><span className="denominator">3</span></div></span>,
+                options: [
+                    { id: "A", text: "x = 5" },
+                    { id: "B", text: "x = 7" },
+                    { id: "C", text: "x = 15" },
+                    { id: "D", text: "x = 6" }
+                ],
+                correctAnswer: "B",
+                explanation: <span>Rút gọn <div className="fraction"><span className="numerator">35</span><span className="denominator">15</span></div> = <div className="fraction"><span className="numerator">7</span><span className="denominator">3</span></div>. Suy ra x = 7.</span>
+            },
+            {
+                id: 10,
+                type: "fill_in",
+                section: "III. Trả lời nhanh (2 câu)",
+                question: <span>Viết 20 dm² dưới dạng phân số với đơn vị là m².</span>,
+                hint: "(Gợi ý: 1 m² = 100 dm²)",
+                options: [
+                    { id: "A", html: <span><div className="fraction"><span className="numerator">20</span><span className="denominator">10</span></div> m²</span> },
+                    { id: "B", html: <span><div className="fraction"><span className="numerator">100</span><span className="denominator">20</span></div> m²</span> },
+                    { id: "C", html: <span><div className="fraction"><span className="numerator">20</span><span className="denominator">100</span></div> m²</span> },
+                    { id: "D", html: <span><div className="fraction"><span className="numerator">20</span><span className="denominator">1000</span></div> m²</span> }
+                ],
+                correctAnswer: "C",
+                explanation: <span>Vì 1 dm² = <div className="fraction"><span className="numerator">1</span><span className="denominator">100</span></div> m², nên 20 dm² = <div className="fraction"><span className="numerator">20</span><span className="denominator">100</span></div> m².</span>
             }
-        }
+        ];
 
-        // 2. Grade TF (4 câu -> 1.0 điểm -> 0.25đ/câu)
-        for(let i=1; i<=4; i++) {
-            const qID = `tf${i}`;
-            const rows = document.querySelectorAll(`#${qID} .tf-table tr`);
-            let correctCount = 0;
-            rows.forEach((row, idx) => {
-                const btnGrp = row.querySelector('.tf-btn-group');
-                const userVal = btnGrp ? btnGrp.dataset.selected : null;
-                const correctVal = ANSWERS.tf[qID][idx];
-                if(userVal === correctVal) {
-                    correctCount++;
-                    if(btnGrp) btnGrp.style.border = '2px solid #22c55e';
-                } else {
-                    if(btnGrp) btnGrp.style.border = '2px solid #ef4444';
+        // --- Components ---
+
+        // FIX: Component Icon mới sử dụng useRef để tránh xung đột DOM giữa React và Lucide
+        const Icon = ({ name, className }) => {
+            const ref = React.useRef(null);
+
+            React.useEffect(() => {
+                if (typeof lucide !== 'undefined' && ref.current) {
+                    // Tạo element tạm cho Lucide xử lý
+                    const i = document.createElement('i');
+                    i.setAttribute('data-lucide', name);
+                    if (className) {
+                        i.className = className;
+                    }
+                    
+                    // Xóa nội dung cũ và thêm element mới vào container
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(i);
+                    
+                    // Gọi Lucide render trong phạm vi container (ref)
+                    lucide.createIcons({
+                        root: ref.current
+                    });
                 }
-            });
-            // Mỗi câu lớn 0.25đ, chia đều cho 4 ý nhỏ -> 0.0625đ/ý
-            score += correctCount * 0.0625;
-            
-            const fb = document.querySelector(`#${qID} .result-feedback`);
-            fb.style.display = 'block';
-            fb.className = 'result-feedback ' + (correctCount==4 ? 'correct':'wrong');
-            fb.innerHTML = `Bạn đúng ${correctCount}/4 ý.`;
-        }
+            }, [name, className]);
 
-        // 3. Grade DD (5 câu -> 2.0 điểm -> 0.4đ/câu)
-        // Lưu ý: Đã điều chỉnh thang điểm lên 2.0 cho phần này để tổng là 10
-        for(let i=1; i<=5; i++) {
-            const qID = `dd${i}`;
-            const slot = document.querySelector(`#${qID} .dd-slot`);
-            const userVal = slot.dataset.currentVal;
-            const correctVal = ANSWERS.dd[qID];
-            const fb = document.querySelector(`#${qID} .result-feedback`);
-            fb.style.display = 'block';
-            if(userVal === correctVal) {
-                score += 0.4;
-                fb.className = 'result-feedback correct';
-                fb.innerHTML = '✅ Chính xác!';
-            } else {
-                fb.className = 'result-feedback wrong';
-                fb.innerHTML = '❌ Sai rồi.';
-            }
-        }
-
-        // 4. Grade SA (5 câu -> 4.0 điểm -> 0.8đ/câu)
-        // Lưu ý: Đã điều chỉnh thang điểm lên 4.0 cho phần này để tổng là 10
-        for(let i=1; i<=5; i++) {
-            const qID = `sa${i}`;
-            const inp = document.getElementById(`inp_${qID}`);
-            const fb = document.querySelector(`#${qID} .result-feedback`);
-            fb.style.display = 'block';
-            if(inp.value.trim() == ANSWERS.sa[qID]) {
-                score += 0.8;
-                fb.className = 'result-feedback correct';
-                fb.innerHTML = '✅ Chính xác!';
-            } else {
-                fb.className = 'result-feedback wrong';
-                fb.innerHTML = `❌ Đáp án đúng: ${ANSWERS.sa[qID]}`;
-            }
-        }
-
-        // Calculate Percentage
-        let percent = (score / maxScore) * 100;
-        finalScorePercent = Math.round(percent) + "%";
-        
-        // Update Modal
-        document.getElementById('scorePercent').textContent = finalScorePercent;
-        document.getElementById('scoreRaw').textContent = `Điểm số: ${score.toFixed(2)}/10`;
-        
-        document.getElementById('scoreModal').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-        document.querySelector('.btn-submit').style.display = 'none';
-        document.querySelector('.btn-reset').style.display = 'inline-block';
-        
-        // Enable save button
-        document.getElementById('btnSave').disabled = false;
-    }
-
-    // --- SEND TO GOOGLE SHEET ---
-    function sendToGoogleSheet() {
-        const name = document.getElementById('studentName').value;
-        const btn = document.getElementById('btnSave');
-        const status = document.getElementById('saveStatus');
-
-        if (!name) {
-            status.textContent = "⚠ Lỗi: Chưa nhập tên học sinh!";
-            status.style.color = "red";
-            return;
-        }
-
-        if (SCRIPT_URL.includes("YOUR_GOOGLE_SCRIPT")) {
-             status.textContent = "⚠ Lỗi: Chưa cấu hình URL Script!";
-             status.style.color = "red";
-             return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = "Đang gửi...";
-        status.textContent = "";
-
-        const data = {
-            timestamp: new Date().toLocaleString('vi-VN'),
-            name: name,
-            score: finalScorePercent // Gửi phần trăm về Sheet
+            // React chỉ quản lý thẻ span này, nội dung bên trong do Lucide quản lý thủ công
+            return <span ref={ref} style={{ display: 'inline-flex', verticalAlign: 'middle' }}></span>;
         };
 
-        // Sử dụng mode 'no-cors' để tránh lỗi CORS khi gọi từ local/file
-        fetch(SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors", 
-            headers: {
-                "Content-Type": "text/plain" // Changed from application/json to text/plain
-            },
-            body: JSON.stringify(data)
-        })
-        .then(() => {
-            // Vì no-cors không trả về response, ta giả định thành công nếu không có lỗi mạng
-            status.textContent = "✅ Đã gửi kết quả thành công!";
-            status.style.color = "green";
-            btn.textContent = "Đã gửi";
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            status.textContent = "❌ Có lỗi xảy ra. Vui lòng thử lại.";
-            status.style.color = "red";
-            btn.disabled = false;
-            btn.textContent = "Gửi kết quả";
-        });
-    }
+        const StartScreen = ({ onStart }) => {
+            const [studentName, setStudentName] = useState("");
+            const [className, setClassName] = useState("");
 
-    function closeModal() {
-        document.getElementById('scoreModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        window.scrollTo(0, 0);
-    }
-</script>
+            const handleSubmit = () => {
+                if (studentName.trim() && className.trim()) {
+                    onStart(studentName, className);
+                } else {
+                    alert("Vui lòng nhập đầy đủ Họ tên và Lớp!");
+                }
+            };
 
+            return (
+                <div className="flex flex-col items-center justify-center min-h-[70vh] text-center p-6 bg-white rounded-2xl shadow-xl max-w-2xl mx-auto mt-10">
+                    <div className="bg-blue-100 p-6 rounded-full mb-6">
+                        <Icon name="book-open" className="text-blue-600 w-16 h-16" />
+                    </div>
+                    <h1 className="text-4xl font-bold text-gray-800 mb-4 hand-font">Kiểm Tra Toán 6</h1>
+                    <h2 className="text-2xl text-blue-600 mb-6 font-semibold">Chủ đề: Phân Số</h2>
+                    
+                    <div className="w-full max-w-md space-y-4 mb-8 text-left">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Họ và tên học sinh</label>
+                            <input 
+                                type="text" 
+                                value={studentName}
+                                onChange={(e) => setStudentName(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                placeholder="Nhập họ tên của bạn..."
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Lớp</label>
+                            <input 
+                                type="text" 
+                                value={className}
+                                onChange={(e) => setClassName(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                placeholder="Ví dụ: 6A1"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="text-left bg-gray-50 p-6 rounded-lg w-full max-w-md mb-8 border border-gray-200 text-sm">
+                        <p className="mb-2 flex items-center gap-2"><Icon name="check-circle" className="w-4 h-4 text-green-500"/> <strong>4 Câu Trắc Nghiệm</strong></p>
+                        <p className="mb-2 flex items-center gap-2"><Icon name="check-circle" className="w-4 h-4 text-green-500"/> <strong>4 Câu Đúng/Sai</strong></p>
+                        <p className="mb-0 flex items-center gap-2"><Icon name="check-circle" className="w-4 h-4 text-green-500"/> <strong>2 Câu Trả Lời Nhanh</strong></p>
+                    </div>
+
+                    <button 
+                        onClick={handleSubmit}
+                        className="group relative px-8 py-4 bg-blue-600 text-white font-bold rounded-full text-xl shadow-lg hover:bg-blue-700 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-3"
+                    >
+                        Bắt đầu làm bài
+                        <Icon name="arrow-right" className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                </div>
+            );
+        };
+
+        const ResultScreen = ({ answers, aiComment, onRetry }) => {
+            const score = quizData.reduce((acc, q) => {
+                return acc + (answers[q.id] === q.correctAnswer ? 1 : 0);
+            }, 0);
+            const total = quizData.length;
+            const percentage = Math.round((score / total) * 100);
+
+            let message = "";
+            let colorClass = "";
+            if (percentage >= 90) { message = "Xuất sắc!"; colorClass = "text-green-600"; }
+            else if (percentage >= 70) { message = "Làm tốt lắm!"; colorClass = "text-blue-600"; }
+            else if (percentage >= 50) { message = "Đạt yêu cầu"; colorClass = "text-yellow-600"; }
+            else { message = "Cần cố gắng hơn nhé!"; colorClass = "text-red-600"; }
+
+            return (
+                <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden mt-6 mb-10">
+                    <div className="bg-slate-800 text-white p-8 text-center">
+                        <h2 className="text-3xl font-bold mb-2">Kết Quả Bài Làm</h2>
+                        <div className="text-5xl font-black mb-2">{score}/{total}</div>
+                        <p className={`text-2xl font-bold hand-font ${percentage >= 50 ? 'text-green-300' : 'text-red-300'}`}>{message}</p>
+                    </div>
+
+                    {/* AI Comment Section */}
+                    <div className="p-6 bg-indigo-50 border-b border-indigo-100">
+                        <div className="flex items-start gap-4">
+                            <div className="bg-indigo-600 p-2 rounded-full shadow-lg shrink-0">
+                                <Icon name="bot" className="w-8 h-8 text-white" />
+                            </div>
+                            <div className="flex-grow animate-fade-in">
+                                <h3 className="text-lg font-bold text-indigo-900 mb-1">Nhận xét từ Trợ lý AI</h3>
+                                <div className="bg-white p-4 rounded-lg rounded-tl-none shadow-sm border border-indigo-100 text-gray-700 italic">
+                                    "{aiComment || "Đang phân tích kết quả..."}"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-6 space-y-6 bg-gray-50">
+                        {quizData.map((q, index) => {
+                            const isCorrect = answers[q.id] === q.correctAnswer;
+                            const userAnswer = answers[q.id];
+                            
+                            const getOptionLabel = (optId) => {
+                                const opt = q.options.find(o => o.id === optId);
+                                if (!opt) return "Chưa chọn";
+                                return opt.html || opt.text || opt.label;
+                            };
+
+                            return (
+                                <div key={q.id} className={`border-l-4 p-4 bg-white shadow-sm rounded-r-lg ${isCorrect ? 'border-green-500' : 'border-red-500'}`}>
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="font-bold text-gray-800 text-lg">Câu {index + 1}: <span className="font-normal text-base">{q.question}</span></h3>
+                                        {isCorrect ? 
+                                            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1"><Icon name="check" className="w-4 h-4"/> Đúng</span> : 
+                                            <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1"><Icon name="x" className="w-4 h-4"/> Sai</span>
+                                        }
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 text-sm">
+                                        <div className={`${isCorrect ? 'text-green-700' : 'text-red-600'}`}>
+                                            <span className="font-bold">Bạn chọn:</span> <div className="inline-block">{getOptionLabel(userAnswer)}</div>
+                                        </div>
+                                        {!isCorrect && (
+                                            <div className="text-green-700">
+                                                <span className="font-bold">Đáp án đúng:</span> <div className="inline-block">{getOptionLabel(q.correctAnswer)}</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    <div className="mt-3 bg-blue-50 p-3 rounded text-blue-800 text-sm">
+                                        <strong>Giải thích: </strong> {q.explanation}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="p-8 text-center bg-white border-t">
+                        <button 
+                            onClick={onRetry}
+                            className="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-indigo-700 transition flex items-center gap-2 mx-auto"
+                        >
+                            <Icon name="rotate-ccw" className="w-5 h-5" /> Làm bài mới
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const QuizScreen = ({ onFinish }) => {
+            const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [timeLeft, setTimeLeft] = useState(15 * 60);
+
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setTimeLeft((prev) => {
+                        if (prev <= 1) {
+                            clearInterval(timer);
+                            onFinish(answers);
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [answers, onFinish]);
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            };
+
+            const handleAnswer = (optionId) => {
+                setAnswers({ ...answers, [quizData[currentQuestionIndex].id]: optionId });
+            };
+
+            const handleNext = () => {
+                if (currentQuestionIndex < quizData.length - 1) {
+                    setCurrentQuestionIndex(prev => prev + 1);
+                } else {
+                    onFinish(answers);
+                }
+            };
+
+            const handlePrev = () => {
+                if (currentQuestionIndex > 0) {
+                    setCurrentQuestionIndex(prev => prev - 1);
+                }
+            };
+
+            const currentQ = quizData[currentQuestionIndex];
+            const isLastQuestion = currentQuestionIndex === quizData.length - 1;
+            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+
+            return (
+                <div className="max-w-3xl mx-auto mt-6 p-4">
+                    {/* Header Info */}
+                    <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm">
+                        <div>
+                            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Câu hỏi</span>
+                            <div className="text-2xl font-bold text-blue-600">{currentQuestionIndex + 1}<span className="text-gray-400 text-lg">/{quizData.length}</span></div>
+                        </div>
+                        <div className="text-center hidden sm:block">
+                            <h2 className="text-sm font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">{currentQ.section}</h2>
+                        </div>
+                        <div className="flex items-center gap-2 text-orange-600 font-bold bg-orange-50 px-4 py-2 rounded-lg border border-orange-100">
+                            <Icon name="clock" className="w-5 h-5" />
+                            {formatTime(timeLeft)}
+                        </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                        <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
+                    </div>
+
+                    {/* Question Card */}
+                    <div className="bg-white rounded-2xl shadow-lg p-6 md:p-10 min-h-[400px] flex flex-col relative">
+                        <div className="flex-grow">
+                            <h3 className="text-xl md:text-2xl font-medium text-gray-800 mb-2 leading-relaxed">
+                                {currentQ.question}
+                            </h3>
+                            {currentQ.hint && <p className="text-sm text-gray-500 italic mb-6">{currentQ.hint}</p>}
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                                {currentQ.options.map((opt) => {
+                                    const isSelected = answers[currentQ.id] === opt.id;
+                                    return (
+                                        <button
+                                            key={opt.id}
+                                            onClick={() => handleAnswer(opt.id)}
+                                            className={`p-4 rounded-xl border-2 text-left transition-all flex items-center gap-3 relative
+                                                ${isSelected 
+                                                    ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200 ring-opacity-50' 
+                                                    : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                                                }`}
+                                        >
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center border font-bold shrink-0
+                                                ${isSelected ? 'bg-blue-500 text-white border-blue-500' : 'text-gray-500 border-gray-300 bg-white'}
+                                            `}>
+                                                {opt.id}
+                                            </div>
+                                            <div className="text-lg text-gray-700">
+                                                {opt.html || opt.text || opt.label}
+                                            </div>
+                                            {isSelected && <Icon name="check-circle" className="absolute right-4 text-blue-500 w-5 h-5" />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Navigation */}
+                        <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
+                            <button 
+                                onClick={handlePrev}
+                                disabled={currentQuestionIndex === 0}
+                                className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition
+                                    ${currentQuestionIndex === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+                            >
+                                <Icon name="arrow-left" className="w-5 h-5" /> Quay lại
+                            </button>
+                            
+                            <button 
+                                onClick={handleNext}
+                                className={`flex items-center gap-2 px-8 py-3 rounded-lg font-bold shadow-lg transition transform active:scale-95
+                                    ${isLastQuestion 
+                                        ? 'bg-green-600 text-white hover:bg-green-700' 
+                                        : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                            >
+                                {isLastQuestion ? 'Nộp bài' : 'Câu tiếp theo'}
+                                {!isLastQuestion && <Icon name="arrow-right" className="w-5 h-5" />}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const LoadingScreen = () => (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-8 rounded-xl shadow-2xl text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto mb-4"></div>
+                    <h2 className="text-xl font-bold text-gray-800">Đang chấm điểm...</h2>
+                    <p className="text-gray-600 mt-2">Hệ thống AI đang phân tích bài làm của bạn</p>
+                </div>
+            </div>
+        );
+
+        const App = () => {
+            const [gameState, setGameState] = useState('intro'); // intro, quiz, submitting, result
+            const [userInfo, setUserInfo] = useState({ name: '', class: '' });
+            const [userAnswers, setUserAnswers] = useState({});
+            const [aiComment, setAiComment] = useState("");
+
+            const startQuiz = (name, className) => {
+                setUserInfo({ name, class: className });
+                setGameState('quiz');
+            };
+            
+            const submitData = async (answers) => {
+                setGameState('submitting');
+                setUserAnswers(answers);
+
+                // 1. Calculate Local Scores
+                let p1 = 0, p2 = 0, p3 = 0;
+                let answerLog = [];
+                let headersLog = [];
+
+                quizData.forEach(q => {
+                    const isCorrect = answers[q.id] === q.correctAnswer;
+                    if (q.type === "multiple_choice") {
+                        if (isCorrect) p1 += 1;
+                        headersLog.push(`Câu ${q.id} (TN)`);
+                    } else if (q.type === "true_false") {
+                        if (isCorrect) p2 += 1;
+                        headersLog.push(`Câu ${q.id} (Đ/S)`);
+                    } else {
+                        if (isCorrect) p3 += 1;
+                        headersLog.push(`Câu ${q.id} (Điền)`);
+                    }
+                    answerLog.push(answers[q.id] || "Bỏ qua");
+                });
+
+                const totalScore = p1 + p2 + p3;
+                const maxScore = quizData.length;
+
+                // 2. Get AI Comment
+                let comment = "";
+                try {
+                    const response = await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: "get_comment",
+                            score: totalScore,
+                            maxScore: maxScore,
+                            p1: p1, p2: p2, p3: p3, p4: 0 // Không có tự luận
+                        })
+                    });
+                    const data = await response.json();
+                    comment = data.comment || "Đã có lỗi khi lấy nhận xét.";
+                } catch (e) {
+                    console.error("Error getting comment:", e);
+                    comment = "Không thể kết nối với AI Server.";
+                }
+                setAiComment(comment);
+
+                // 3. Save to Sheet
+                const summaryHeaders = ["Tổng Điểm", "TN", "Đ/S", "Điền"];
+                const summaryScores = [`${totalScore}/${maxScore}`, p1, p2, p3];
+                
+                const payload = {
+                    action: "save_score",
+                    role: "Kiểm tra Toán 6: Phân Số",
+                    evaluator: userInfo.name,
+                    groupName: userInfo.class,
+                    comment: comment,
+                    headers: summaryHeaders.concat(headersLog),
+                    scores: summaryScores.concat(answerLog)
+                };
+
+                try {
+                    await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (e) {
+                    console.error("Error saving score:", e);
+                }
+
+                setGameState('result');
+            };
+
+            const retryQuiz = () => {
+                setUserAnswers({});
+                setGameState('intro');
+                setAiComment("");
+            };
+
+            return (
+                <div className="min-h-screen pb-10">
+                    {/* Top Bar Decoration */}
+                    <div className="h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
+                    
+                    {gameState === 'intro' && <StartScreen onStart={startQuiz} />}
+                    {gameState === 'quiz' && <QuizScreen onFinish={submitData} />}
+                    {gameState === 'submitting' && <LoadingScreen />}
+                    {gameState === 'result' && <ResultScreen answers={userAnswers} aiComment={aiComment} onRetry={retryQuiz} />}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
