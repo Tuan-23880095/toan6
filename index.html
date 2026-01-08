@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiểm tra Toán 6: Phân Số</title>
+    <title>Kiểm tra Toán 6: So Sánh Phân Số</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -27,6 +26,7 @@
             vertical-align: middle;
             margin: 0 0.2rem;
             text-align: center;
+            font-size: 1.1em;
         }
         .fraction > span {
             display: block;
@@ -61,143 +61,142 @@
         // --- CONFIGURATION ---
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBPRlkjpMLDctdm2Uk7aYex_P6Cx0uhIdUmwOcYEm9C7JDe5OH92FiWEn6Nz1HNenY-A/exec";
 
-        // --- Data: Questions ---
+        // --- Data: Questions based on "2026 01 08-TLDT_TOAN 6_HK2_CTST.pdf" ---
         const quizData = [
-            // Phần 1: Trắc nghiệm (4 câu) - 1 điểm mỗi câu (giả định)
+            // Phần 1: Trắc nghiệm (4 câu)
             {
                 id: 1,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: "Trong các cách viết sau đây, cách viết nào KHÔNG phải là phân số?",
+                question: <span>Cho hai phân số <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> và <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div>. Khẳng định nào sau đây là đúng?</span>,
                 options: [
-                    { id: "A", label: "A", html: <div className="fraction"><span className="numerator">3</span><span className="denominator">2</span></div> },
-                    { id: "B", label: "B", html: <div className="fraction"><span className="numerator">-8</span><span className="denominator">-9</span></div> },
-                    { id: "C", label: "C", html: <div className="fraction"><span className="numerator">2,5</span><span className="denominator">-9,5</span></div> },
-                    { id: "D", label: "D", html: <div className="fraction"><span className="numerator">0</span><span className="denominator">4</span></div> }
+                    { id: "A", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> < <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
+                    { id: "B", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> > <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
+                    { id: "C", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> = <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
+                    { id: "D", text: "Không so sánh được" }
                 ],
-                correctAnswer: "C",
-                explanation: "Phân số yêu cầu tử số và mẫu số phải là số nguyên. 2,5 và -9,5 là số thập phân."
+                correctAnswer: "B",
+                explanation: <span>Quy tắc so sánh cùng mẫu dương: Tử số nào lớn hơn thì phân số đó lớn hơn. Vì -3 > -7 nên <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> > <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div>.</span>
             },
             {
                 id: 2,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: <span>Phân số <div className="fraction"><span className="numerator">-9</span><span className="denominator">7</span></div> được đọc là gì?</span>,
+                question: <span>Tìm số nguyên <span className="math-symbol">n</span> để phân số <div className="fraction"><span className="numerator">n</span><span className="denominator">-5</span></div> là phân số dương?</span>,
                 options: [
-                    { id: "A", text: "Chín phần bảy" },
-                    { id: "B", text: "Âm bảy phần chín" },
-                    { id: "C", text: "Bảy phần chín" },
-                    { id: "D", text: "Âm chín phần bảy" }
+                    { id: "A", text: "n > 0 (n là số nguyên dương)" },
+                    { id: "B", text: "n = 0" },
+                    { id: "C", text: "n < 0 (n là số nguyên âm)" },
+                    { id: "D", text: "n là số nguyên bất kỳ khác 0" }
                 ],
-                correctAnswer: "D",
-                explanation: "Đọc tử số trước (Âm chín), rồi đến 'phần', rồi đến mẫu số (bảy)."
+                correctAnswer: "C",
+                explanation: "Để phân số dương thì tử và mẫu phải cùng dấu. Mẫu là -5 (âm), nên tử số n cũng phải là số âm (n < 0)."
             },
             {
                 id: 3,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: <span>Phân số nào dưới đây bằng với phân số <div className="fraction"><span className="numerator">-2</span><span className="denominator">5</span></div>?</span>,
+                question: <span>Trong một ngày mùa đông, nhiệt độ tại đỉnh Mẫu Sơn là <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div>°C và tại đỉnh Phan-xi-păng là <div className="fraction"><span className="numerator">-15</span><span className="denominator">8</span></div>°C. Nơi nào lạnh hơn?</span>,
                 options: [
-                    { id: "A", html: <div className="fraction"><span className="numerator">4</span><span className="denominator">10</span></div> },
-                    { id: "B", html: <div className="fraction"><span className="numerator">-6</span><span className="denominator">15</span></div> },
-                    { id: "C", html: <div className="fraction"><span className="numerator">6</span><span className="denominator">15</span></div> },
-                    { id: "D", html: <div className="fraction"><span className="numerator">-4</span><span className="denominator">100</span></div> }
+                    { id: "A", text: "Đỉnh Mẫu Sơn" },
+                    { id: "B", text: "Đỉnh Phan-xi-păng" },
+                    { id: "C", text: "Hai nơi lạnh bằng nhau" },
+                    { id: "D", text: "Không so sánh được" }
                 ],
                 correctAnswer: "B",
-                explanation: <span>Rút gọn <div className="fraction"><span className="numerator">-6</span><span className="denominator">15</span></div> (chia cả tử và mẫu cho 3) ta được <div className="fraction"><span className="numerator">-2</span><span className="denominator">5</span></div>.</span>
+                explanation: <span>Ta quy đồng hoặc đổi ra số thập phân: <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> = -0.6°C; <div className="fraction"><span className="numerator">-15</span><span className="denominator">8</span></div> = -1.875°C. Vì -1.875 < -0.6 nên Phan-xi-păng lạnh hơn.</span>
             },
             {
                 id: 4,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: "Lớp 6A có 45 học sinh, trong đó có 20 học sinh giỏi. Số học sinh giỏi chiếm bao nhiêu phần học sinh cả lớp?",
+                question: <span>Sắp xếp các số sau theo thứ tự tăng dần: 2; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; -1</span>,
                 options: [
-                    { id: "A", html: <div className="fraction"><span className="numerator">1</span><span className="denominator">9</span></div> },
-                    { id: "B", html: <div className="fraction"><span className="numerator">4</span><span className="denominator">9</span></div> },
-                    { id: "C", html: <div className="fraction"><span className="numerator">1</span><span className="denominator">3</span></div> },
-                    { id: "D", html: <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div> }
+                    { id: "A", html: <span>-1; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; 2</span> },
+                    { id: "B", html: <span><div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; -1; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; 2</span> },
+                    { id: "C", html: <span>-1; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; 2; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div></span> },
+                    { id: "D", html: <span><div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; -1; 2</span> }
                 ],
-                correctAnswer: "B",
-                explanation: <span>Lập phân số <div className="fraction"><span className="numerator">20</span><span className="denominator">45</span></div>, rút gọn cho 5 được <div className="fraction"><span className="numerator">4</span><span className="denominator">9</span></div>.</span>
+                correctAnswer: "A",
+                explanation: <span>Ta có <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> là số âm lớn hơn -1 (vì -5/6 > -6/6). Vậy thứ tự là: -1 < <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> < <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div> < 2.</span>
             },
             // Phần 2: Đúng Sai (4 câu)
             {
                 id: 5,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: "Phân số nhỏ hơn số 0 gọi là phân số âm.",
+                question: <span>Theo tính chất bắc cầu: Nếu <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> < <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> và <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> < <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div> thì <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> < <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div>.</span>,
                 options: [
                     { id: "True", text: "Đúng" },
                     { id: "False", text: "Sai" }
                 ],
                 correctAnswer: "True",
-                explanation: "Theo định nghĩa SGK, phân số nhỏ hơn 0 là phân số âm."
+                explanation: "Đây là phát biểu chính xác của quy tắc bắc cầu trong so sánh phân số."
             },
             {
                 id: 6,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: <span>Mọi số nguyên <span className="math-symbol">a</span> đều có thể viết dưới dạng phân số là <div className="fraction"><span className="numerator">a</span><span className="denominator">0</span></div>.</span>,
+                question: <span>Phân số <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> lớn hơn phân số <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div>.</span>,
                 options: [
                     { id: "True", text: "Đúng" },
                     { id: "False", text: "Sai" }
                 ],
                 correctAnswer: "False",
-                explanation: <span>Mẫu số phải khác 0. Cách viết đúng là <div className="fraction"><span className="numerator">a</span><span className="denominator">1</span></div>.</span>
+                explanation: <span>Ta có <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> = <div className="fraction"><span className="numerator">-16</span><span className="denominator">12</span></div> và <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div> = <div className="fraction"><span className="numerator">-15</span><span className="denominator">12</span></div>. Vì -16 < -15 nên <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> < <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div>.</span>
             },
             {
                 id: 7,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: <span>Phân số <div className="fraction"><span className="numerator">-2</span><span className="denominator">-5</span></div> là phân số dương.</span>,
+                question: "Mọi phân số âm đều nhỏ hơn phân số dương.",
                 options: [
                     { id: "True", text: "Đúng" },
                     { id: "False", text: "Sai" }
                 ],
                 correctAnswer: "True",
-                explanation: "Tử và mẫu cùng dấu (cùng âm) nên phân số có giá trị dương."
+                explanation: "Phân số âm < 0, phân số dương > 0. Do đó phân số âm luôn nhỏ hơn phân số dương."
             },
             {
                 id: 8,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: "Số 0 KHÔNG thể viết được dưới dạng phân số.",
+                question: <span>Kết quả so sánh: <div className="fraction"><span className="numerator">-21</span><span className="denominator">10</span></div> > 0.</span>,
                 options: [
                     { id: "True", text: "Đúng" },
                     { id: "False", text: "Sai" }
                 ],
                 correctAnswer: "False",
-                explanation: <span>Sai. Số 0 có thể viết là <div className="fraction"><span className="numerator">0</span><span className="denominator">a</span></div> (với a khác 0).</span>
+                explanation: <span>Tử (-21) và mẫu (10) trái dấu nên đây là phân số âm. Phân số âm phải nhỏ hơn 0.</span>
             },
-            // Phần 3: Điền khuyết / Trả lời nhanh (2 câu)
+            // Phần 3: Trả lời nhanh (2 câu)
             {
                 id: 9,
                 type: "fill_in",
                 section: "III. Trả lời nhanh (2 câu)",
-                question: <span>Tìm số nguyên <span className="math-symbol">x</span>, biết: <div className="fraction"><span className="numerator">35</span><span className="denominator">15</span></div> = <div className="fraction"><span className="numerator">x</span><span className="denominator">3</span></div></span>,
+                question: <span>Trong ngày hội thể thao, lớp 6A có: <div className="fraction"><span className="numerator">1</span><span className="denominator">2</span></div> số HS thi bóng đá, <div className="fraction"><span className="numerator">2</span><span className="denominator">5</span></div> số HS thi kéo co, <div className="fraction"><span className="numerator">3</span><span className="denominator">10</span></div> số HS thi cầu lông. Môn nào có số lượng đăng ký nhiều nhất?</span>,
                 options: [
-                    { id: "A", text: "x = 5" },
-                    { id: "B", text: "x = 7" },
-                    { id: "C", text: "x = 15" },
-                    { id: "D", text: "x = 6" }
+                    { id: "A", text: "Bóng đá" },
+                    { id: "B", text: "Kéo co" },
+                    { id: "C", text: "Cầu lông" },
+                    { id: "D", text: "Bằng nhau" }
                 ],
-                correctAnswer: "B",
-                explanation: <span>Rút gọn <div className="fraction"><span className="numerator">35</span><span className="denominator">15</span></div> = <div className="fraction"><span className="numerator">7</span><span className="denominator">3</span></div>. Suy ra x = 7.</span>
+                correctAnswer: "A",
+                explanation: <span>Quy đồng mẫu 10: Bóng đá (<div className="fraction"><span className="numerator">5</span><span className="denominator">10</span></div>), Kéo co (<div className="fraction"><span className="numerator">4</span><span className="denominator">10</span></div>), Cầu lông (<div className="fraction"><span className="numerator">3</span><span className="denominator">10</span></div>). 5 > 4 > 3 nên Bóng đá nhiều nhất.</span>
             },
             {
                 id: 10,
                 type: "fill_in",
                 section: "III. Trả lời nhanh (2 câu)",
-                question: <span>Viết 20 dm² dưới dạng phân số với đơn vị là m².</span>,
-                hint: "(Gợi ý: 1 m² = 100 dm²)",
+                question: "Tổ 1 gồm 8 bạn có tổng chiều cao 115 dm. Tổ 2 gồm 10 bạn có tổng chiều cao 138 dm. Chiều cao trung bình của tổ nào lớn hơn?",
                 options: [
-                    { id: "A", html: <span><div className="fraction"><span className="numerator">20</span><span className="denominator">10</span></div> m²</span> },
-                    { id: "B", html: <span><div className="fraction"><span className="numerator">100</span><span className="denominator">20</span></div> m²</span> },
-                    { id: "C", html: <span><div className="fraction"><span className="numerator">20</span><span className="denominator">100</span></div> m²</span> },
-                    { id: "D", html: <span><div className="fraction"><span className="numerator">20</span><span className="denominator">1000</span></div> m²</span> }
+                    { id: "A", text: "Tổ 1" },
+                    { id: "B", text: "Tổ 2" },
+                    { id: "C", text: "Bằng nhau" },
+                    { id: "D", text: "Không tính được" }
                 ],
-                correctAnswer: "C",
-                explanation: <span>Vì 1 dm² = <div className="fraction"><span className="numerator">1</span><span className="denominator">100</span></div> m², nên 20 dm² = <div className="fraction"><span className="numerator">20</span><span className="denominator">100</span></div> m².</span>
+                correctAnswer: "A",
+                explanation: <span>TB tổ 1: <div className="fraction"><span className="numerator">115</span><span className="denominator">8</span></div> = 14,375 dm. TB tổ 2: <div className="fraction"><span className="numerator">138</span><span className="denominator">10</span></div> = 13,8 dm. Vì 14,375 > 13,8 nên Tổ 1 cao hơn.</span>
             }
         ];
 
@@ -209,25 +208,21 @@
 
             React.useEffect(() => {
                 if (typeof lucide !== 'undefined' && ref.current) {
-                    // Tạo element tạm cho Lucide xử lý
                     const i = document.createElement('i');
                     i.setAttribute('data-lucide', name);
                     if (className) {
                         i.className = className;
                     }
                     
-                    // Xóa nội dung cũ và thêm element mới vào container
                     ref.current.innerHTML = '';
                     ref.current.appendChild(i);
                     
-                    // Gọi Lucide render trong phạm vi container (ref)
                     lucide.createIcons({
                         root: ref.current
                     });
                 }
             }, [name, className]);
 
-            // React chỉ quản lý thẻ span này, nội dung bên trong do Lucide quản lý thủ công
             return <span ref={ref} style={{ display: 'inline-flex', verticalAlign: 'middle' }}></span>;
         };
 
@@ -249,7 +244,7 @@
                         <Icon name="book-open" className="text-blue-600 w-16 h-16" />
                     </div>
                     <h1 className="text-4xl font-bold text-gray-800 mb-4 hand-font">Kiểm Tra Toán 6</h1>
-                    <h2 className="text-2xl text-blue-600 mb-6 font-semibold">Chủ đề: Phân Số</h2>
+                    <h2 className="text-2xl text-blue-600 mb-6 font-semibold">Chủ đề: So Sánh Phân Số</h2>
                     
                     <div className="w-full max-w-md space-y-4 mb-8 text-left">
                         <div>
@@ -570,7 +565,7 @@
                             action: "get_comment",
                             score: totalScore,
                             maxScore: maxScore,
-                            p1: p1, p2: p2, p3: p3, p4: 0 // Không có tự luận
+                            p1: p1, p2: p2, p3: p3, p4: 0
                         })
                     });
                     const data = await response.json();
@@ -587,7 +582,7 @@
                 
                 const payload = {
                     action: "save_score",
-                    role: "Kiểm tra Toán 6: Phân Số",
+                    role: "Kiểm tra Toán 6: So Sánh Phân Số",
                     evaluator: userInfo.name,
                     groupName: userInfo.class,
                     comment: comment,
