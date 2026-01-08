@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.js"></script>
 
     <style>
         body {
@@ -70,13 +70,14 @@
                 section: "I. Trắc nghiệm (4 câu)",
                 question: <span>Cho hai phân số <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> và <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div>. Khẳng định nào sau đây là đúng?</span>,
                 options: [
-                    { id: "A", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> < <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
-                    { id: "B", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> > <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
+                    // FIX: Thay dấu < bằng &lt; và > bằng &gt; để tránh lỗi JSX
+                    { id: "A", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> &lt; <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
+                    { id: "B", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> &gt; <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
                     { id: "C", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> = <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
                     { id: "D", text: "Không so sánh được" }
                 ],
                 correctAnswer: "B",
-                explanation: <span>Quy tắc so sánh cùng mẫu dương: Tử số nào lớn hơn thì phân số đó lớn hơn. Vì -3 > -7 nên <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> > <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div>.</span>
+                explanation: <span>Quy tắc so sánh cùng mẫu dương: Tử số nào lớn hơn thì phân số đó lớn hơn. Vì -3 &gt; -7 nên <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> &gt; <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div>.</span>
             },
             {
                 id: 2,
@@ -104,7 +105,7 @@
                     { id: "D", text: "Không so sánh được" }
                 ],
                 correctAnswer: "B",
-                explanation: <span>Ta quy đồng hoặc đổi ra số thập phân: <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> = -0.6°C; <div className="fraction"><span className="numerator">-15</span><span className="denominator">8</span></div> = -1.875°C. Vì -1.875 < -0.6 nên Phan-xi-păng lạnh hơn.</span>
+                explanation: <span>Ta quy đồng hoặc đổi ra số thập phân: <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> = -0.6°C; <div className="fraction"><span className="numerator">-15</span><span className="denominator">8</span></div> = -1.875°C. Vì -1.875 &lt; -0.6 nên Phan-xi-păng lạnh hơn.</span>
             },
             {
                 id: 4,
@@ -118,14 +119,14 @@
                     { id: "D", html: <span><div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; -1; 2</span> }
                 ],
                 correctAnswer: "A",
-                explanation: <span>Ta có <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> là số âm lớn hơn -1 (vì -5/6 > -6/6). Vậy thứ tự là: -1 < <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> < <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div> < 2.</span>
+                explanation: <span>Ta có <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> là số âm lớn hơn -1 (vì -5/6 &gt; -6/6). Vậy thứ tự là: -1 &lt; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> &lt; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div> &lt; 2.</span>
             },
             // Phần 2: Đúng Sai (4 câu)
             {
                 id: 5,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: <span>Theo tính chất bắc cầu: Nếu <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> < <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> và <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> < <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div> thì <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> < <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div>.</span>,
+                question: <span>Theo tính chất bắc cầu: Nếu <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> &lt; <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> và <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> &lt; <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div> thì <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> &lt; <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div>.</span>,
                 options: [
                     { id: "True", text: "Đúng" },
                     { id: "False", text: "Sai" }
@@ -143,7 +144,7 @@
                     { id: "False", text: "Sai" }
                 ],
                 correctAnswer: "False",
-                explanation: <span>Ta có <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> = <div className="fraction"><span className="numerator">-16</span><span className="denominator">12</span></div> và <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div> = <div className="fraction"><span className="numerator">-15</span><span className="denominator">12</span></div>. Vì -16 < -15 nên <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> < <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div>.</span>
+                explanation: <span>Ta có <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> = <div className="fraction"><span className="numerator">-16</span><span className="denominator">12</span></div> và <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div> = <div className="fraction"><span className="numerator">-15</span><span className="denominator">12</span></div>. Vì -16 &lt; -15 nên <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> &lt; <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div>.</span>
             },
             {
                 id: 7,
@@ -161,7 +162,7 @@
                 id: 8,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: <span>Kết quả so sánh: <div className="fraction"><span className="numerator">-21</span><span className="denominator">10</span></div> > 0.</span>,
+                question: <span>Kết quả so sánh: <div className="fraction"><span className="numerator">-21</span><span className="denominator">10</span></div> &gt; 0.</span>,
                 options: [
                     { id: "True", text: "Đúng" },
                     { id: "False", text: "Sai" }
@@ -182,7 +183,7 @@
                     { id: "D", text: "Bằng nhau" }
                 ],
                 correctAnswer: "A",
-                explanation: <span>Quy đồng mẫu 10: Bóng đá (<div className="fraction"><span className="numerator">5</span><span className="denominator">10</span></div>), Kéo co (<div className="fraction"><span className="numerator">4</span><span className="denominator">10</span></div>), Cầu lông (<div className="fraction"><span className="numerator">3</span><span className="denominator">10</span></div>). 5 > 4 > 3 nên Bóng đá nhiều nhất.</span>
+                explanation: <span>Quy đồng mẫu 10: Bóng đá (<div className="fraction"><span className="numerator">5</span><span className="denominator">10</span></div>), Kéo co (<div className="fraction"><span className="numerator">4</span><span className="denominator">10</span></div>), Cầu lông (<div className="fraction"><span className="numerator">3</span><span className="denominator">10</span></div>). 5 &gt; 4 &gt; 3 nên Bóng đá nhiều nhất.</span>
             },
             {
                 id: 10,
@@ -196,13 +197,12 @@
                     { id: "D", text: "Không tính được" }
                 ],
                 correctAnswer: "A",
-                explanation: <span>TB tổ 1: <div className="fraction"><span className="numerator">115</span><span className="denominator">8</span></div> = 14,375 dm. TB tổ 2: <div className="fraction"><span className="numerator">138</span><span className="denominator">10</span></div> = 13,8 dm. Vì 14,375 > 13,8 nên Tổ 1 cao hơn.</span>
+                explanation: <span>TB tổ 1: <div className="fraction"><span className="numerator">115</span><span className="denominator">8</span></div> = 14,375 dm. TB tổ 2: <div className="fraction"><span className="numerator">138</span><span className="denominator">10</span></div> = 13,8 dm. Vì 14,375 &gt; 13,8 nên Tổ 1 cao hơn.</span>
             }
         ];
 
         // --- Components ---
 
-        // FIX: Component Icon mới sử dụng useRef để tránh xung đột DOM giữa React và Lucide
         const Icon = ({ name, className }) => {
             const ref = React.useRef(null);
 
