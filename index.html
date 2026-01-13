@@ -62,144 +62,141 @@
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBPRlkjpMLDctdm2Uk7aYex_P6Cx0uhIdUmwOcYEm9C7JDe5OH92FiWEn6Nz1HNenY-A/exec";
 
         // --- Data: Questions based on "2026 01 08-TLDT_TOAN 6_HK2_CTST.pdf" ---
-        const quizData = [
-            // Phần 1: Trắc nghiệm (4 câu)
-            {
+                   const quizData = [
+              // Phần 1: Trắc nghiệm (4 câu)
+              {
                 id: 1,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: <span>Cho hai phân số <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> và <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div>. Khẳng định nào sau đây là đúng?</span>,
+                question: <span>Phân số nào bằng <div className="fraction"><span className="numerator">3</span><span className="denominator">4</span></div>?</span>,
                 options: [
-                    // FIX: Thay dấu < bằng &lt; và > bằng &gt; để tránh lỗi JSX
-                    { id: "A", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> &lt; <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
-                    { id: "B", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> &gt; <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
-                    { id: "C", html: <span><div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> = <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div></span> },
-                    { id: "D", text: "Không so sánh được" }
+                  { id: "A", html: <span><div className="fraction"><span className="numerator">6</span><span className="denominator">12</span></div></span> },
+                  { id: "B", html: <span><div className="fraction"><span className="numerator">9</span><span className="denominator">12</span></div></span> },
+                  { id: "C", html: <span><div className="fraction"><span className="numerator">12</span><span className="denominator">18</span></div></span> },
+                  { id: "D", html: <span><div className="fraction"><span className="numerator">8</span><span className="denominator">10</span></div></span> }
                 ],
                 correctAnswer: "B",
-                explanation: <span>Quy tắc so sánh cùng mẫu dương: Tử số nào lớn hơn thì phân số đó lớn hơn. Vì -3 &gt; -7 nên <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> &gt; <div className="fraction"><span className="numerator">-7</span><span className="denominator">5</span></div>.</span>
-            },
-            {
+                explanation: <span>Rút gọn <div className="fraction"><span className="numerator">9</span><span className="denominator">12</span></div> được <div className="fraction"><span className="numerator">3</span><span className="denominator">4</span></div>.</span>
+              },
+              {
                 id: 2,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: <span>Tìm số nguyên <span className="math-symbol">n</span> để phân số <div className="fraction"><span className="numerator">n</span><span className="denominator">-5</span></div> là phân số dương?</span>,
+                question: <span>Giá trị của 0,25 + <div className="fraction"><span className="numerator">1</span><span className="denominator">4</span></div> bằng bao nhiêu?</span>,
                 options: [
-                    { id: "A", text: "n > 0 (n là số nguyên dương)" },
-                    { id: "B", text: "n = 0" },
-                    { id: "C", text: "n < 0 (n là số nguyên âm)" },
-                    { id: "D", text: "n là số nguyên bất kỳ khác 0" }
+                  { id: "A", text: "0,25" },
+                  { id: "B", text: "0,5" },
+                  { id: "C", text: "0,75" },
+                  { id: "D", text: "1" }
                 ],
-                correctAnswer: "C",
-                explanation: "Để phân số dương thì tử và mẫu phải cùng dấu. Mẫu là -5 (âm), nên tử số n cũng phải là số âm (n < 0)."
-            },
-            {
+                correctAnswer: "B",
+                explanation: <span><div className="fraction"><span className="numerator">1</span><span className="denominator">4</span></div> = 0,25 nên 0,25 + 0,25 = 0,5.</span>
+              },
+              {
                 id: 3,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: <span>Trong một ngày mùa đông, nhiệt độ tại đỉnh Mẫu Sơn là <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div>°C và tại đỉnh Phan-xi-păng là <div className="fraction"><span className="numerator">-15</span><span className="denominator">8</span></div>°C. Nơi nào lạnh hơn?</span>,
+                question: <span>Tỉ số của 12 và 18 rút gọn là:</span>,
                 options: [
-                    { id: "A", text: "Đỉnh Mẫu Sơn" },
-                    { id: "B", text: "Đỉnh Phan-xi-păng" },
-                    { id: "C", text: "Hai nơi lạnh bằng nhau" },
-                    { id: "D", text: "Không so sánh được" }
+                  { id: "A", html: <span><div className="fraction"><span className="numerator">12</span><span className="denominator">18</span></div></span> },
+                  { id: "B", html: <span><div className="fraction"><span className="numerator">6</span><span className="denominator">9</span></div></span> },
+                  { id: "C", html: <span><div className="fraction"><span className="numerator">2</span><span className="denominator">3</span></div></span> },
+                  { id: "D", html: <span><div className="fraction"><span className="numerator">4</span><span className="denominator">5</span></div></span> }
                 ],
-                correctAnswer: "B",
-                explanation: <span>Ta quy đồng hoặc đổi ra số thập phân: <div className="fraction"><span className="numerator">-3</span><span className="denominator">5</span></div> = -0.6°C; <div className="fraction"><span className="numerator">-15</span><span className="denominator">8</span></div> = -1.875°C. Vì -1.875 &lt; -0.6 nên Phan-xi-păng lạnh hơn.</span>
-            },
-            {
+                correctAnswer: "C",
+                explanation: <span>Chia cả tử và mẫu cho 6: <div className="fraction"><span className="numerator">12</span><span className="denominator">18</span></div> = <div className="fraction"><span className="numerator">2</span><span className="denominator">3</span></div>.</span>
+              },
+              {
                 id: 4,
                 type: "multiple_choice",
                 section: "I. Trắc nghiệm (4 câu)",
-                question: <span>Sắp xếp các số sau theo thứ tự tăng dần: 2; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; -1</span>,
+                question: <span>Một hình chữ nhật có chiều dài 8 cm, chiều rộng 5 cm. Diện tích là:</span>,
                 options: [
-                    { id: "A", html: <span>-1; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; 2</span> },
-                    { id: "B", html: <span><div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; -1; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; 2</span> },
-                    { id: "C", html: <span>-1; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; 2; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div></span> },
-                    { id: "D", html: <span><div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div>; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div>; -1; 2</span> }
+                  { id: "A", text: "13 cm²" },
+                  { id: "B", text: "26 cm²" },
+                  { id: "C", text: "40 cm²" },
+                  { id: "D", text: "80 cm²" }
                 ],
-                correctAnswer: "A",
-                explanation: <span>Ta có <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> là số âm lớn hơn -1 (vì -5/6 &gt; -6/6). Vậy thứ tự là: -1 &lt; <div className="fraction"><span className="numerator">5</span><span className="denominator">-6</span></div> &lt; <div className="fraction"><span className="numerator">3</span><span className="denominator">5</span></div> &lt; 2.</span>
-            },
-            // Phần 2: Đúng Sai (4 câu)
-            {
+                correctAnswer: "C",
+                explanation: <span>Diện tích = dài × rộng = 8 × 5 = 40 (cm²).</span>
+              },
+            
+              // Phần 2: Đúng / Sai (4 câu)
+              {
                 id: 5,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: <span>Theo tính chất bắc cầu: Nếu <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> &lt; <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> và <div className="fraction"><span className="numerator">c</span><span className="denominator">d</span></div> &lt; <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div> thì <div className="fraction"><span className="numerator">a</span><span className="denominator">b</span></div> &lt; <div className="fraction"><span className="numerator">m</span><span className="denominator">n</span></div>.</span>,
+                question: <span><div className="fraction"><span className="numerator">2</span><span className="denominator">3</span></div> = <div className="fraction"><span className="numerator">4</span><span className="denominator">6</span></div>.</span>,
                 options: [
-                    { id: "True", text: "Đúng" },
-                    { id: "False", text: "Sai" }
+                  { id: "True", text: "Đúng" },
+                  { id: "False", text: "Sai" }
                 ],
                 correctAnswer: "True",
-                explanation: "Đây là phát biểu chính xác của quy tắc bắc cầu trong so sánh phân số."
-            },
-            {
+                explanation: <span>Nhân cả tử và mẫu của <div className="fraction"><span className="numerator">2</span><span className="denominator">3</span></div> với 2 được <div className="fraction"><span className="numerator">4</span><span className="denominator">6</span></div>.</span>
+              },
+              {
                 id: 6,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: <span>Phân số <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> lớn hơn phân số <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div>.</span>,
+                question: <span>0,4 = <div className="fraction"><span className="numerator">2</span><span className="denominator">5</span></div>.</span>,
                 options: [
-                    { id: "True", text: "Đúng" },
-                    { id: "False", text: "Sai" }
+                  { id: "True", text: "Đúng" },
+                  { id: "False", text: "Sai" }
                 ],
-                correctAnswer: "False",
-                explanation: <span>Ta có <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> = <div className="fraction"><span className="numerator">-16</span><span className="denominator">12</span></div> và <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div> = <div className="fraction"><span className="numerator">-15</span><span className="denominator">12</span></div>. Vì -16 &lt; -15 nên <div className="fraction"><span className="numerator">-4</span><span className="denominator">3</span></div> &lt; <div className="fraction"><span className="numerator">5</span><span className="denominator">-4</span></div>.</span>
-            },
-            {
+                correctAnswer: "True",
+                explanation: <span>0,4 = 4/10 = <div className="fraction"><span className="numerator">2</span><span className="denominator">5</span></div>.</span>
+              },
+              {
                 id: 7,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: "Mọi phân số âm đều nhỏ hơn phân số dương.",
+                question: <span>25% = <div className="fraction"><span className="numerator">1</span><span className="denominator">2</span></div>.</span>,
                 options: [
-                    { id: "True", text: "Đúng" },
-                    { id: "False", text: "Sai" }
+                  { id: "True", text: "Đúng" },
+                  { id: "False", text: "Sai" }
                 ],
-                correctAnswer: "True",
-                explanation: "Phân số âm < 0, phân số dương > 0. Do đó phân số âm luôn nhỏ hơn phân số dương."
-            },
-            {
+                correctAnswer: "False",
+                explanation: <span>25% = <div className="fraction"><span className="numerator">1</span><span className="denominator">4</span></div>, không phải <div className="fraction"><span className="numerator">1</span><span className="denominator">2</span></div>.</span>
+              },
+              {
                 id: 8,
                 type: "true_false",
                 section: "II. Đúng / Sai (4 câu)",
-                question: <span>Kết quả so sánh: <div className="fraction"><span className="numerator">-21</span><span className="denominator">10</span></div> &gt; 0.</span>,
+                question: <span>Chu vi hình vuông cạnh 6 cm là 24 cm.</span>,
                 options: [
-                    { id: "True", text: "Đúng" },
-                    { id: "False", text: "Sai" }
+                  { id: "True", text: "Đúng" },
+                  { id: "False", text: "Sai" }
                 ],
-                correctAnswer: "False",
-                explanation: <span>Tử (-21) và mẫu (10) trái dấu nên đây là phân số âm. Phân số âm phải nhỏ hơn 0.</span>
-            },
-            // Phần 3: Trả lời nhanh (2 câu)
-            {
+                correctAnswer: "True",
+                explanation: <span>Chu vi = 4 × 6 = 24 (cm).</span>
+              },
+            
+              // Phần 3: Trả lời nhanh (2 câu)
+              {
                 id: 9,
                 type: "fill_in",
                 section: "III. Trả lời nhanh (2 câu)",
-                question: <span>Trong ngày hội thể thao, lớp 6A có: <div className="fraction"><span className="numerator">1</span><span className="denominator">2</span></div> số HS thi bóng đá, <div className="fraction"><span className="numerator">2</span><span className="denominator">5</span></div> số HS thi kéo co, <div className="fraction"><span className="numerator">3</span><span className="denominator">10</span></div> số HS thi cầu lông. Môn nào có số lượng đăng ký nhiều nhất?</span>,
+                question: <span>Tính <div className="fraction"><span className="numerator">5</span><span className="denominator">6</span></div> − <div className="fraction"><span className="numerator">1</span><span className="denominator">3</span></div>.</span>,
                 options: [
-                    { id: "A", text: "Bóng đá" },
-                    { id: "B", text: "Kéo co" },
-                    { id: "C", text: "Cầu lông" },
-                    { id: "D", text: "Bằng nhau" }
+                  { id: "A", html: <span><div className="fraction"><span className="numerator">1</span><span className="denominator">2</span></div></span> }
                 ],
                 correctAnswer: "A",
-                explanation: <span>Quy đồng mẫu 10: Bóng đá (<div className="fraction"><span className="numerator">5</span><span className="denominator">10</span></div>), Kéo co (<div className="fraction"><span className="numerator">4</span><span className="denominator">10</span></div>), Cầu lông (<div className="fraction"><span className="numerator">3</span><span className="denominator">10</span></div>). 5 &gt; 4 &gt; 3 nên Bóng đá nhiều nhất.</span>
-            },
-            {
+                explanation: <span>Quy đồng: <div className="fraction"><span className="numerator">1</span><span className="denominator">3</span></div> = <div className="fraction"><span className="numerator">2</span><span className="denominator">6</span></div>. Khi đó 5/6 − 2/6 = 3/6 = 1/2.</span>
+              },
+              {
                 id: 10,
                 type: "fill_in",
                 section: "III. Trả lời nhanh (2 câu)",
-                question: "Tổ 1 gồm 8 bạn có tổng chiều cao 115 dm. Tổ 2 gồm 10 bạn có tổng chiều cao 138 dm. Chiều cao trung bình của tổ nào lớn hơn?",
+                question: <span>Một lớp có 40 học sinh, trong đó 30% là học sinh nữ. Số học sinh nữ là bao nhiêu?</span>,
                 options: [
-                    { id: "A", text: "Tổ 1" },
-                    { id: "B", text: "Tổ 2" },
-                    { id: "C", text: "Bằng nhau" },
-                    { id: "D", text: "Không tính được" }
+                  { id: "A", text: "12" }
                 ],
                 correctAnswer: "A",
-                explanation: <span>TB tổ 1: <div className="fraction"><span className="numerator">115</span><span className="denominator">8</span></div> = 14,375 dm. TB tổ 2: <div className="fraction"><span className="numerator">138</span><span className="denominator">10</span></div> = 13,8 dm. Vì 14,375 &gt; 13,8 nên Tổ 1 cao hơn.</span>
-            }
-        ];
+                explanation: <span>40 × 30% = 40 × 0,3 = 12.</span>
+              }
+            ];
+            
+            // --- Components ---
 
         // --- Components ---
 
