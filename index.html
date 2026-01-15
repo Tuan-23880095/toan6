@@ -59,148 +59,149 @@
         const { useState, useEffect, useRef } = React;
 
         // --- CONFIGURATION ---
+        // Lưu ý: Đảm bảo URL này chính xác và script đã được deploy dưới dạng Web App với quyền "Anyone"
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBPRlkjpMLDctdm2Uk7aYex_P6Cx0uhIdUmwOcYEm9C7JDe5OH92FiWEn6Nz1HNenY-A/exec";
 
-        // --- Data: Questions based on "2026 01 08-TLDT_TOAN 6_HK2_CTST.pdf" ---
-                   const quizData = [
-              // Phần 1: Trắc nghiệm (4 câu)
-                        {
-                            id: 1,
-                            type: "multiple_choice",
-                            section: "I. Trắc nghiệm (4 câu)",
-                            [cite_start]question: <span>Phép cộng <span className="math-symbol">12,5 + (-3,4)</span> có kết quả là:</span>, // [cite: 5]
-                            options: [
-                                { id: "A", text: "9,1" },
-                                { id: "B", text: "-9,1" },
-                                { id: "C", text: "15,9" },
-                                { id: "D", text: "8,1" }
-                            ],
-                            correctAnswer: "A",
-                            [cite_start]explanation: <span>Lấy số lớn trừ số bé và đặt dấu của số lớn: <span className="math-symbol">12,5 - 3,4 = 9,1</span>.</span> // [cite: 6]
-                        },
-                        {
-                            id: 2,
-                            type: "multiple_choice",
-                            section: "I. Trắc nghiệm (4 câu)",
-                            [cite_start]question: <span>Khi nhân hai số thập phân trái dấu, kết quả là:</span>, // [cite: 20]
-                            options: [
-                                { id: "A", text: "Số dương" },
-                                { id: "B", text: "Số âm" },
-                                { id: "C", text: "Bằng 0" },
-                                { id: "D", text: "Không xác định" }
-                            ],
-                            correctAnswer: "B",
-                            [cite_start]explanation: <span>Tích của hai số trái dấu luôn là một số âm.</span> // [cite: 21]
-                        },
-                        {
-                            id: 3,
-                            type: "multiple_choice",
-                            section: "I. Trắc nghiệm (4 câu)",
-                            [cite_start]question: <span>Phép chia <span className="math-symbol">(-0,4) : (-0,2)</span> có kết quả là:</span>, // [cite: 16]
-                            options: [
-                                { id: "A", text: "2" },
-                                { id: "B", text: "-2" },
-                                { id: "C", text: "0,2" },
-                                { id: "D", text: "-0,2" }
-                            ],
-                            correctAnswer: "A",
-                            [cite_start]explanation: <span>Thương của hai số cùng dấu âm là số dương: <span className="math-symbol">0,4 : 0,2 = 2</span>.</span> // [cite: 17]
-                        },
-                        {
-                            id: 4,
-                            type: "multiple_choice",
-                            section: "I. Trắc nghiệm (4 câu)",
-                            question: <span>Một bao gạo nặng 2,5 kg. [cite_start]Hỏi 4 bao như thế nặng bao nhiêu kg?</span>, // [cite: 43]
-                            options: [
-                                { id: "A", text: "9,0" },
-                                { id: "B", text: "10,0" },
-                                { id: "C", text: "8,5" },
-                                { id: "D", text: "12,0" }
-                            ],
-                            correctAnswer: "B",
-                            [cite_start]explanation: <span>Thực hiện phép nhân: <span className="math-symbol">2,5 × 4 = 10</span> (kg).</span> // [cite: 44]
-                        },
+        // --- Data: Cleaned up ---
+        const quizData = [
+            // Phần 1: Trắc nghiệm (4 câu)
+            {
+                id: 1,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: <span>Phép cộng <span className="math-symbol">12,5 + (-3,4)</span> có kết quả là:</span>,
+                options: [
+                    { id: "A", text: "9,1" },
+                    { id: "B", text: "-9,1" },
+                    { id: "C", text: "15,9" },
+                    { id: "D", text: "8,1" }
+                ],
+                correctAnswer: "A",
+                explanation: <span>Lấy số lớn trừ số bé và đặt dấu của số lớn: <span className="math-symbol">12,5 - 3,4 = 9,1</span>.</span>
+            },
+            {
+                id: 2,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: <span>Khi nhân hai số thập phân trái dấu, kết quả là:</span>,
+                options: [
+                    { id: "A", text: "Số dương" },
+                    { id: "B", text: "Số âm" },
+                    { id: "C", text: "Bằng 0" },
+                    { id: "D", text: "Không xác định" }
+                ],
+                correctAnswer: "B",
+                explanation: <span>Tích của hai số trái dấu luôn là một số âm.</span>
+            },
+            {
+                id: 3,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: <span>Phép chia <span className="math-symbol">(-0,4) : (-0,2)</span> có kết quả là:</span>,
+                options: [
+                    { id: "A", text: "2" },
+                    { id: "B", text: "-2" },
+                    { id: "C", text: "0,2" },
+                    { id: "D", text: "-0,2" }
+                ],
+                correctAnswer: "A",
+                explanation: <span>Thương của hai số cùng dấu âm là số dương: <span className="math-symbol">0,4 : 0,2 = 2</span>.</span>
+            },
+            {
+                id: 4,
+                type: "multiple_choice",
+                section: "I. Trắc nghiệm (4 câu)",
+                question: <span>Một bao gạo nặng 2,5 kg. Hỏi 4 bao như thế nặng bao nhiêu kg?</span>,
+                options: [
+                    { id: "A", text: "9,0" },
+                    { id: "B", text: "10,0" },
+                    { id: "C", text: "8,5" },
+                    { id: "D", text: "12,0" }
+                ],
+                correctAnswer: "B",
+                explanation: <span>Thực hiện phép nhân: <span className="math-symbol">2,5 × 4 = 10</span> (kg).</span>
+            },
             
-                        // Phần 2: Đúng / Sai (4 câu)
-                        {
-                            id: 5,
-                            type: "true_false",
-                            section: "II. Đúng / Sai (4 câu)",
-                            [cite_start]question: <span>Khi nhân một số thập phân với 10, 100, 1000... ta chỉ cần dịch chuyển dấu phẩy sang trái.</span>, // [cite: 59]
-                            options: [
-                                { id: "True", text: "Đúng" },
-                                { id: "False", text: "Sai" }
-                            ],
-                            correctAnswer: "False",
-                            explanation: <span>Sai. [cite_start]Muốn nhân với 10, 100... ta dịch chuyển dấu phẩy sang bên PHẢI.</span> // [cite: 59]
-                        },
-                        {
-                            id: 6,
-                            type: "true_false",
-                            section: "II. Đúng / Sai (4 câu)",
-                            [cite_start]question: <span>Phép cộng hai số thập phân âm luôn cho kết quả âm vì cộng thêm phần âm.</span>, // [cite: 61]
-                            options: [
-                                { id: "True", text: "Đúng" },
-                                { id: "False", text: "Sai" }
-                            ],
-                            correctAnswer: "True",
-                            explanation: <span>Đúng. [cite_start]Tổng của hai số âm là một số âm.</span> // [cite: 61]
-                        },
-                        {
-                            id: 7,
-                            type: "true_false",
-                            section: "II. Đúng / Sai (4 câu)",
-                            [cite_start]question: <span>Khi trừ hai số thập phân, ta đổi phép trừ thành phép cộng với số đối.</span>, // [cite: 58]
-                            options: [
-                                { id: "True", text: "Đúng" },
-                                { id: "False", text: "Sai" }
-                            ],
-                            correctAnswer: "True",
-                            explanation: <span>Đúng. [cite_start]Quy tắc: <span className="math-symbol">a - b = a + (-b)</span>.</span> // [cite: 58]
-                        },
-                        {
-                            id: 8,
-                            type: "true_false",
-                            section: "II. Đúng / Sai (4 câu)",
-                            [cite_start]question: <span>Khi nhân hai số dương, kết quả luôn là số âm.</span>, // [cite: 59]
-                            options: [
-                                { id: "True", text: "Đúng" },
-                                { id: "False", text: "Sai" }
-                            ],
-                            correctAnswer: "False",
-                            explanation: <span>Sai. [cite_start]Tích của hai số dương luôn là số dương.</span> // [cite: 59]
-                        },
+            // Phần 2: Đúng / Sai (4 câu)
+            {
+                id: 5,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: <span>Khi nhân một số thập phân với 10, 100, 1000... ta chỉ cần dịch chuyển dấu phẩy sang trái.</span>,
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "False",
+                explanation: <span>Sai. Muốn nhân với 10, 100... ta dịch chuyển dấu phẩy sang bên PHẢI.</span>
+            },
+            {
+                id: 6,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: <span>Phép cộng hai số thập phân âm luôn cho kết quả âm vì cộng thêm phần âm.</span>,
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "True",
+                explanation: <span>Đúng. Tổng của hai số âm là một số âm.</span>
+            },
+            {
+                id: 7,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: <span>Khi trừ hai số thập phân, ta đổi phép trừ thành phép cộng với số đối.</span>,
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "True",
+                explanation: <span>Đúng. Quy tắc: <span className="math-symbol">a - b = a + (-b)</span>.</span>
+            },
+            {
+                id: 8,
+                type: "true_false",
+                section: "II. Đúng / Sai (4 câu)",
+                question: <span>Khi nhân hai số dương, kết quả luôn là số âm.</span>,
+                options: [
+                    { id: "True", text: "Đúng" },
+                    { id: "False", text: "Sai" }
+                ],
+                correctAnswer: "False",
+                explanation: <span>Sai. Tích của hai số dương luôn là số dương.</span>
+            },
             
-                        // Phần 3: Trả lời nhanh (2 câu)
-                        {
-                            id: 9,
-                            type: "fill_in",
-                            section: "III. Trả lời nhanh (2 câu)",
-                            [cite_start]question: <span>Tính kết quả: <span className="math-symbol">(-24,5) + (-3,4)</span></span>, // [cite: 69]
-                            options: [
-                                { id: "A", text: "-27,9" },
-                                { id: "B", text: "-21,1" },
-                                { id: "C", text: "27,9" },
-                                { id: "D", text: "21,1" }
-                            ],
-                            correctAnswer: "A",
-                            [cite_start]explanation: <span>Cộng hai số âm: <span className="math-symbol">-(24,5 + 3,4) = -27,9</span>.</span> // [cite: 69]
-                        },
-                        {
-                            id: 10,
-                            type: "fill_in",
-                            section: "III. Trả lời nhanh (2 câu)",
-                            question: <span>Tính kết quả: <span className="math-symbol">(-0,4) . (-0,5)[cite_start]</span></span>, // [cite: 72]
-                            options: [
-                                { id: "A", text: "0,2" },
-                                { id: "B", text: "-0,2" },
-                                { id: "C", text: "2" },
-                                { id: "D", text: "-2" }
-                            ],
-                            correctAnswer: "A",
-                            [cite_start]explanation: <span>Âm nhân âm ra dương: <span className="math-symbol">0,4 × 0,5 = 0,2</span>.</span> // [cite: 72]
-                        }
-                    ];
+            // Phần 3: Trả lời nhanh (2 câu)
+            {
+                id: 9,
+                type: "fill_in",
+                section: "III. Trả lời nhanh (2 câu)",
+                question: <span>Tính kết quả: <span className="math-symbol">(-24,5) + (-3,4)</span></span>,
+                options: [
+                    { id: "A", text: "-27,9" },
+                    { id: "B", text: "-21,1" },
+                    { id: "C", text: "27,9" },
+                    { id: "D", text: "21,1" }
+                ],
+                correctAnswer: "A",
+                explanation: <span>Cộng hai số âm: <span className="math-symbol">-(24,5 + 3,4) = -27,9</span>.</span>
+            },
+            {
+                id: 10,
+                type: "fill_in",
+                section: "III. Trả lời nhanh (2 câu)",
+                question: <span>Tính kết quả: <span className="math-symbol">(-0,4) . (-0,5)</span></span>,
+                options: [
+                    { id: "A", text: "0,2" },
+                    { id: "B", text: "-0,2" },
+                    { id: "C", text: "2" },
+                    { id: "D", text: "-2" }
+                ],
+                correctAnswer: "A",
+                explanation: <span>Âm nhân âm ra dương: <span className="math-symbol">0,4 × 0,5 = 0,2</span>.</span>
+            }
+        ];
 
         // --- Components ---
 
@@ -245,7 +246,7 @@
                         <Icon name="book-open" className="text-blue-600 w-16 h-16" />
                     </div>
                     <h1 className="text-4xl font-bold text-gray-800 mb-4 hand-font">Kiểm Tra Toán 6</h1>
-                    <h2 className="text-2xl text-blue-600 mb-6 font-semibold">Chủ đề: So Sánh Phân Số</h2>
+                    <h2 className="text-2xl text-blue-600 mb-6 font-semibold">Chủ đề: Số Thập Phân</h2>
                     
                     <div className="w-full max-w-md space-y-4 mb-8 text-left">
                         <div>
@@ -332,7 +333,8 @@
                             const getOptionLabel = (optId) => {
                                 const opt = q.options.find(o => o.id === optId);
                                 if (!opt) return "Chưa chọn";
-                                return opt.html || opt.text || opt.label;
+                                // Trả về text đơn giản nếu có, vì render HTML phức tạp ở đây
+                                return opt.text || opt.label;
                             };
 
                             return (
@@ -573,7 +575,7 @@
                     comment = data.comment || "Đã có lỗi khi lấy nhận xét.";
                 } catch (e) {
                     console.error("Error getting comment:", e);
-                    comment = "Không thể kết nối với AI Server.";
+                    comment = "Không thể kết nối với AI Server (hoặc script chưa được deploy đúng).";
                 }
                 setAiComment(comment);
 
